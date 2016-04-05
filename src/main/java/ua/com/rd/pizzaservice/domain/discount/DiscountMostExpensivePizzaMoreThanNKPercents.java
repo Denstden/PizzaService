@@ -3,25 +3,17 @@ package ua.com.rd.pizzaservice.domain.discount;
 import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DiscountMostExpensivePizzaMoreThanNKPercents implements Discountable {
+public class DiscountMostExpensivePizzaMoreThanNKPercents implements PizzaDiscount {
     private Integer n;
     private Double percents;
-    private Order order;
+    private List<Pizza> pizzas = new ArrayList<>();
 
     public DiscountMostExpensivePizzaMoreThanNKPercents(Integer n, Double percents) {
         this.n = n;
         this.percents = percents;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    @Override
-    public void setOrder(Order order) {
-        this.order = order;
     }
 
     public int getN() {
@@ -41,9 +33,18 @@ public class DiscountMostExpensivePizzaMoreThanNKPercents implements Discountabl
     }
 
     @Override
-    public Double calculate() {
-        if (order.getPizzaList().size()>n){
-            return mostExpensivePizzaPrice(order.getPizzaList())*percents/100;
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
+    }
+
+    public List<Pizza> getPizzas() {
+        return pizzas;
+    }
+
+    @Override
+    public Double calculate(/*Order order*/) {
+        if (pizzas.size()>n){
+            return mostExpensivePizzaPrice(pizzas)*percents/100;
         }
         return 0.;
     }
@@ -57,4 +58,6 @@ public class DiscountMostExpensivePizzaMoreThanNKPercents implements Discountabl
         }
         return maxPrice;
     }
+
+
 }

@@ -3,23 +3,17 @@ package ua.com.rd.pizzaservice.domain.discount;
 import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
-public class DiscountEachNPizzaKPercents implements Discountable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DiscountEachNPizzaKPercents implements PizzaDiscount {
     private Integer n;
     private Double percents;
-    private Order order;
+    private List<Pizza> pizzas = new ArrayList<>();
 
     public DiscountEachNPizzaKPercents(Integer n, Double percents) {
         this.n = n;
         this.percents = percents;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    @Override
-    public void setOrder(Order order) {
-        this.order = order;
     }
 
     public Integer getN() {
@@ -38,11 +32,20 @@ public class DiscountEachNPizzaKPercents implements Discountable {
         this.percents = percents;
     }
 
+    public List<Pizza> getPizzas() {
+        return pizzas;
+    }
+
     @Override
-    public Double calculate() {
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
+    }
+
+    @Override
+    public Double calculate(/*Order order*/) {
         Double finalDiscount = 0.;
         int i=1;
-        for (Pizza pizza:order.getPizzaList()){
+        for (Pizza pizza:pizzas){
             if (i%n==0){
                 finalDiscount+=pizza.getPrice()*percents/100;
             }

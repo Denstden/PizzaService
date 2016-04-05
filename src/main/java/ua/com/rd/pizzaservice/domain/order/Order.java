@@ -91,7 +91,7 @@ public class Order {
     public void done() throws IncorrectStateException {
         if (currentState.equals(inProgressState)){
             currentState = new DoneState();
-            customer.addCashToCard(getFinalPrice());
+//            customer.addCashToCard(getFinalPrice());
         }
         else throw new IncorrectStateException("Done state must be after in progress state.");
     }

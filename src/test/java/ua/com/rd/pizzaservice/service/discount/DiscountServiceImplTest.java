@@ -3,9 +3,14 @@ package ua.com.rd.pizzaservice.service.discount;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.rd.pizzaservice.domain.address.Address;
+import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
+import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
+import ua.com.rd.pizzaservice.repository.card.InMemAccumulativeCardRepository;
+import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
+import ua.com.rd.pizzaservice.service.card.AccumulativeCardServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +20,13 @@ import static org.junit.Assert.assertEquals;
 public class DiscountServiceImplTest {
     private static final Double EPSILON = 0.0000001;
     private DiscountService discountService;
+    private AccumulativeCardService accumulativeCardService;
 
     @Before
     public void setUp(){
-        discountService = new DiscountServiceImpl();
+        accumulativeCardService = new AccumulativeCardServiceImpl(new InMemAccumulativeCardRepository());
+        DiscountProvider discountProvider = new DiscountProvider(accumulativeCardService);
+        discountService = new DiscountServiceImpl(discountProvider);
     }
 
     @Test
@@ -59,10 +67,10 @@ public class DiscountServiceImplTest {
     }
 
     @Test
-    public void calculateDiscountsWithAccCardFivePizzas(){
+    public void calculateDiscountsWithAccCardFivePizzas() throws NoAccumulativeCardException {
         Customer customer = new Customer(1l,"name", new Address("C","c","st","b"));
-        customer.giveCard();
-        customer.addCashToCard(1000d);
+        accumulativeCardService.giveCard(customer);
+        accumulativeCardService.findCard(customer).addCash(1000d);
         List<Pizza> pizzas = new ArrayList<Pizza>(){{
             add(new Pizza(1l, "Margarita", 180., Pizza.PizzaType.MEAT));
             add(new Pizza(2l, "Barbecue", 120., Pizza.PizzaType.MEAT));

@@ -1,8 +1,11 @@
 package ua.com.rd.pizzaservice.service.customer;
 
+import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
 
+import java.util.List;
+
 public interface CustomerService {
-    void giveCard(Long id);
     boolean payForOrder(Order order);
+    List<Customer> findAll();
 }

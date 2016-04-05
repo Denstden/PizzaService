@@ -2,17 +2,16 @@ package ua.com.rd.pizzaservice.service.customer;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
 import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.order.state.DoneState;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
+import ua.com.rd.pizzaservice.repository.card.InMemAccumulativeCardRepository;
+import ua.com.rd.pizzaservice.repository.customer.CustomerRepository;
 import ua.com.rd.pizzaservice.repository.customer.InMemCustomerRepository;
+import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
+import ua.com.rd.pizzaservice.service.card.AccumulativeCardServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,26 +20,15 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
 public class CustomerServiceImplTest {
-    @Spy
-    private InMemCustomerRepository customerRepository;
-
-    @InjectMocks
-    private CustomerServiceImpl customerService;
+    private CustomerService customerService;
 
     @Before
     public void setUp(){
-        customerRepository = new InMemCustomerRepository();
-        customerService = new CustomerServiceImpl(customerRepository);
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void giveCardShouldCallOneTimesMethodInRepository(){
-        Long id = 1l;
-        customerService.giveCard(id);
-        verify(customerRepository, times(1)).getCustomerById(id);
+        CustomerRepository customerRepository = new InMemCustomerRepository();
+        AccumulativeCardService accumulativeCardService =
+                new AccumulativeCardServiceImpl(new InMemAccumulativeCardRepository());
+        customerService = new CustomerServiceImpl(customerRepository, accumulativeCardService);
     }
 
     @Test

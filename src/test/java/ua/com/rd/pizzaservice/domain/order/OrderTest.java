@@ -16,7 +16,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class OrderTest {
-    private final static Double EPSILON = 0.0000001;
     private Order order;
 
     @Before

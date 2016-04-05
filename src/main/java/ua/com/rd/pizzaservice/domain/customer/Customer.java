@@ -8,13 +8,11 @@ public class Customer {
     private Long id;
     private String name;
     private Address address;
-    private Optional<AccumulativeCard> card;
 
     public Customer(Long id, String name, Address address) {
         this.address = address;
         this.id = id;
         this.name = name;
-        this.card = Optional.empty();
     }
 
     public Long getId() {
@@ -41,40 +39,12 @@ public class Customer {
         this.address = address;
     }
 
-    public Optional<AccumulativeCard> getCard(){
-        return card;
-    }
-
-    public void giveCard(){
-        if (!isCardPresent()) {
-            card = Optional.of(new AccumulativeCard());
-        }
-    }
-
-    public boolean isCardPresent(){
-        return card.isPresent();
-    }
-
-    public void addCashToCard(Double cash) {
-        if (card.isPresent()){
-            card.get().addCash(cash);
-        }
-    }
-
-    public Double getCashOnCard() throws NoAccumulativeCardException {
-        if (card.isPresent()) {
-            return card.get().getCash();
-        }
-        throw new NoAccumulativeCardException();
-    }
-
     @Override
     public String toString() {
         return "Customer{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + name +
                 ", address=" + address +
-                ", card=" + card +
                 '}';
     }
 }
