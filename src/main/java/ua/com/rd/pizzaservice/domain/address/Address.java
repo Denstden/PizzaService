@@ -1,6 +1,6 @@
 package ua.com.rd.pizzaservice.domain.address;
 
-public class Address{
+public class Address {
     private String country;
     private String city;
     private String street;
@@ -47,6 +47,6 @@ public class Address{
 
     @Override
     public String toString() {
-        return country+", "+city+", "+street+", "+building;
+        return country + ", " + city + ", " + street + ", " + building;
     }
 }

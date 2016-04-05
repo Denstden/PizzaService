@@ -2,7 +2,7 @@ package ua.com.rd.pizzaservice.domain.card;
 
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 
-public class AccumulativeCard{
+public class AccumulativeCard {
     private Double cash;
     private Customer customer;
 
@@ -15,8 +15,8 @@ public class AccumulativeCard{
         return cash;
     }
 
-    public void addCash(Double cash1){
-        cash+=cash1;
+    public void addCash(Double cash) {
+        this.cash += cash;
     }
 
     public Customer getCustomer() {
@@ -29,9 +29,9 @@ public class AccumulativeCard{
 
     @Override
     public String toString() {
-        return "AccumulativeCard{" +
-                "cash=" + cash +
-                ", customer=" + customer +
-                '}';
+        return "AccumulativeCard{"
+                + "cash=" + cash
+                + ", customer=" + customer
+                + '}';
     }
 }

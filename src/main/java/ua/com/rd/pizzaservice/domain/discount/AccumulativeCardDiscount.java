@@ -1,10 +1,8 @@
 package ua.com.rd.pizzaservice.domain.discount;
 
 import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
-import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
-import ua.com.rd.pizzaservice.domain.order.Order;
 
-public class AccumulativeCardDiscount implements Discountable{
+public class AccumulativeCardDiscount implements Discountable {
     private static final Double PERCENT_FOR_SUBSTRACTION_FROM_CARD = 10d;
     private static final Double MAX_PERCENT_FOR_SUBSTRACTION = 30d;
     private Double finalOrderPrice;
@@ -31,12 +29,13 @@ public class AccumulativeCardDiscount implements Discountable{
 
     @Override
     public Double calculate() {
-        if (card==null){
+        if (card == null) {
             return 0d;
         }
         Double cashOnCard = card.getCash();
         Double discount;
-        if (cashOnCard * PERCENT_FOR_SUBSTRACTION_FROM_CARD > finalOrderPrice * MAX_PERCENT_FOR_SUBSTRACTION) {
+        if (cashOnCard * PERCENT_FOR_SUBSTRACTION_FROM_CARD
+                > finalOrderPrice * MAX_PERCENT_FOR_SUBSTRACTION) {
             discount = finalOrderPrice * MAX_PERCENT_FOR_SUBSTRACTION / 100;
         } else {
             discount = cashOnCard * PERCENT_FOR_SUBSTRACTION_FROM_CARD / 100;

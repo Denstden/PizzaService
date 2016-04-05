@@ -13,7 +13,8 @@ public class AccumulativeCardServiceImpl implements AccumulativeCardService {
     }
 
     @Override
-    public AccumulativeCard findCard(Customer customer) throws NoAccumulativeCardException {
+    public AccumulativeCard findCard(Customer customer)
+            throws NoAccumulativeCardException {
         for (AccumulativeCard card:repository.getCards()){
             if (customer.getId().equals(card.getCustomer().getId())){
                 return card;

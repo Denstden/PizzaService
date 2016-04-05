@@ -7,7 +7,8 @@ import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class InMemAccumulativeCardRepository implements AccumulativeCardRepository{
+public class InMemAccumulativeCardRepository
+        implements AccumulativeCardRepository{
     private Set<AccumulativeCard> cards = new HashSet<>();
 
     @Override
@@ -23,9 +24,10 @@ public class InMemAccumulativeCardRepository implements AccumulativeCardReposito
     }
 
     @Override
-    public AccumulativeCard deleteCard(Customer customer) throws NoAccumulativeCardException {
-        for (AccumulativeCard card:cards){
-            if (card.getCustomer().getId().equals(customer.getId())){
+    public AccumulativeCard deleteCard(Customer customer)
+            throws NoAccumulativeCardException {
+        for (AccumulativeCard card : cards) {
+            if (card.getCustomer().getId().equals(customer.getId())) {
                 cards.remove(card);
                 return card;
             }

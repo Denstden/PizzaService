@@ -7,7 +7,7 @@ import ua.com.rd.pizzaservice.domain.customer.Customer;
 import java.util.List;
 
 public class Order {
-    private static Long currentId = 0l;
+    private static Long currentId = 0L;
     private Long id;
     private Customer customer;
     private List<Pizza> pizzaList;
@@ -27,9 +27,9 @@ public class Order {
         calculatePrice();
     }
 
-    private void calculatePrice(){
-        for (Pizza pizza:pizzaList){
-            finalPrice+=pizza.getPrice();
+    private void calculatePrice() {
+        for (Pizza pizza : pizzaList) {
+            finalPrice += pizza.getPrice();
         }
     }
 
@@ -78,31 +78,31 @@ public class Order {
     public void progress() throws IncorrectStateException {
         if (currentState.equals(newState)) {
             currentState = new InProgressState();
-        } else throw new IncorrectStateException("In progress state must be after new state.");
+        } else throw new IncorrectStateException("In progress state " +
+                "must be after new state.");
     }
 
     public void cancel() throws IncorrectStateException {
-        if (currentState.equals(inProgressState)){
+        if (currentState.equals(inProgressState)) {
             currentState = new CanceledState();
-        }
-        else throw new IncorrectStateException("Canceled state must be after in progress state.");
+        } else throw new IncorrectStateException("Canceled state " +
+                "must be after in progress state.");
     }
 
     public void done() throws IncorrectStateException {
-        if (currentState.equals(inProgressState)){
+        if (currentState.equals(inProgressState)) {
             currentState = new DoneState();
-//            customer.addCashToCard(getFinalPrice());
-        }
-        else throw new IncorrectStateException("Done state must be after in progress state.");
+        } else throw new IncorrectStateException("Done state " +
+                "must be after in progress state.");
     }
 
-    public Integer getPizzasCount(){
+    public Integer getPizzasCount() {
         return pizzaList.size();
     }
 
-    public void addPizza(Pizza pizza){
+    public void addPizza(Pizza pizza) {
         pizzaList.add(pizza);
-        finalPrice+=pizza.getPrice();
+        finalPrice += pizza.getPrice();
     }
 
     @Override

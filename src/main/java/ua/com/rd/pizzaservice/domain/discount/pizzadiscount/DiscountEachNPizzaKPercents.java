@@ -1,6 +1,5 @@
-package ua.com.rd.pizzaservice.domain.discount;
+package ua.com.rd.pizzaservice.domain.discount.pizzadiscount;
 
-import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
 import java.util.ArrayList;
@@ -42,12 +41,12 @@ public class DiscountEachNPizzaKPercents implements PizzaDiscount {
     }
 
     @Override
-    public Double calculate(/*Order order*/) {
+    public Double calculate() {
         Double finalDiscount = 0.;
-        int i=1;
-        for (Pizza pizza:pizzas){
-            if (i%n==0){
-                finalDiscount+=pizza.getPrice()*percents/100;
+        int i = 1;
+        for (Pizza pizza : pizzas) {
+            if (i % n == 0) {
+                finalDiscount += pizza.getPrice() * percents / 100;
             }
             i++;
         }

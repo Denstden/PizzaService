@@ -36,7 +36,8 @@ public class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public Order placeNewOrder(Customer customer, Long... pizzasID) throws InvalidPizzasCountException {
+    public Order placeNewOrder(Customer customer, Long... pizzasID)
+            throws InvalidPizzasCountException {
         if (pizzasID.length>MAX_COUNT_OF_PIZZAS_IN_ORDER || pizzasID.length<1){
             throw new InvalidPizzasCountException();
         }
@@ -48,7 +49,8 @@ public class SimpleOrderService implements OrderService {
     }
 
     @Override
-    public boolean addPizzasToOrder(Order order, Long pizzaID, int count) throws InvalidPizzasCountException {
+    public boolean addPizzasToOrder(Order order, Long pizzaID, int count)
+            throws InvalidPizzasCountException {
         if (count<1 || order.getPizzasCount()+count>MAX_COUNT_OF_PIZZAS_IN_ORDER){
             throw new InvalidPizzasCountException();
         }

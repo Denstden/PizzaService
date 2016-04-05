@@ -13,7 +13,8 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
     private AccumulativeCardService cardService;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, AccumulativeCardService cardService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository,
+                               AccumulativeCardService cardService) {
         this.customerRepository = customerRepository;
         this.cardService = cardService;
     }
@@ -25,11 +26,13 @@ public class CustomerServiceImpl implements CustomerService {
         } catch (IncorrectStateException e) {
             e.printStackTrace();
         }
-        System.out.println("You must pay "+order.getFinalPrice()+" for your order.");
+        System.out.println("You must pay "+order.getFinalPrice()
+                +" for your order.");
 
         try {
             order.done();
-            cardService.findCard(order.getCustomer()).addCash(order.getFinalPrice());
+            cardService.findCard(order.getCustomer()).addCash(
+                    order.getFinalPrice());
         } catch (IncorrectStateException e) {
             e.printStackTrace();
         } catch (NoAccumulativeCardException ignored) {

@@ -12,7 +12,8 @@ public class InMemPizzaRepository implements PizzaRepository {
         pizzaList = new ArrayList<>();
         pizzaList.add(new Pizza(1l,"Margarita",180., Pizza.PizzaType.MEAT));
         pizzaList.add(new Pizza(2l,"Barbecue",120., Pizza.PizzaType.MEAT));
-        pizzaList.add(new Pizza(3l,"Four seasons",130., Pizza.PizzaType.VEGETARIAN));
+        pizzaList.add(new Pizza(3l,"Four seasons",130.,
+                Pizza.PizzaType.VEGETARIAN));
         pizzaList.add(new Pizza(4l,"Sea pizza",150., Pizza.PizzaType.SEA));
     }
 

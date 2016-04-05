@@ -1,17 +1,18 @@
-package ua.com.rd.pizzaservice.domain.discount;
+package ua.com.rd.pizzaservice.domain.discount.pizzadiscount;
 
-import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscountMostExpensivePizzaMoreThanNKPercents implements PizzaDiscount {
+public class DiscountMostExpensivePizzaMoreThanNKPercents
+        implements PizzaDiscount {
     private Integer n;
     private Double percents;
     private List<Pizza> pizzas = new ArrayList<>();
 
-    public DiscountMostExpensivePizzaMoreThanNKPercents(Integer n, Double percents) {
+    public DiscountMostExpensivePizzaMoreThanNKPercents(Integer n,
+                                                        Double percents) {
         this.n = n;
         this.percents = percents;
     }
@@ -42,22 +43,20 @@ public class DiscountMostExpensivePizzaMoreThanNKPercents implements PizzaDiscou
     }
 
     @Override
-    public Double calculate(/*Order order*/) {
-        if (pizzas.size()>n){
-            return mostExpensivePizzaPrice(pizzas)*percents/100;
+    public Double calculate() {
+        if (pizzas.size() > n) {
+            return mostExpensivePizzaPrice(pizzas) * percents / 100;
         }
         return 0.;
     }
 
-    private Double mostExpensivePizzaPrice(List<Pizza> pizzas){
+    private Double mostExpensivePizzaPrice(List<Pizza> pizzas) {
         Double maxPrice = Double.MIN_VALUE;
-        for (Pizza pizza:pizzas){
-            if (pizza.getPrice()>maxPrice){
+        for (Pizza pizza : pizzas) {
+            if (pizza.getPrice() > maxPrice) {
                 maxPrice = pizza.getPrice();
             }
         }
         return maxPrice;
     }
-
-
 }

@@ -1,14 +1,9 @@
 package ua.com.rd.pizzaservice.service.discount;
 
-import ua.com.rd.pizzaservice.domain.discount.AccumulativeCardDiscount;
-import ua.com.rd.pizzaservice.domain.discount.DiscountEachNPizzaKPercents;
-import ua.com.rd.pizzaservice.domain.discount.DiscountMostExpensivePizzaMoreThanNKPercents;
 import ua.com.rd.pizzaservice.domain.discount.Discountable;
 import ua.com.rd.pizzaservice.domain.order.Order;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DiscountServiceImpl implements DiscountService {
     private DiscountProvider provider;

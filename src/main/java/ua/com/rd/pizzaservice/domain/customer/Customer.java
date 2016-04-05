@@ -2,8 +2,6 @@ package ua.com.rd.pizzaservice.domain.customer;
 
 import ua.com.rd.pizzaservice.domain.address.Address;
 
-import java.util.Optional;
-
 public class Customer {
     private Long id;
     private String name;
@@ -41,10 +39,10 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name +
-                ", address=" + address +
-                '}';
+        return "Customer{"
+                + "id=" + id
+                + ", name='" + name
+                + ", address=" + address
+                + '}';
     }
 }

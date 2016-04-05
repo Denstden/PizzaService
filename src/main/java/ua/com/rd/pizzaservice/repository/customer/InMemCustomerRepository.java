@@ -11,10 +11,14 @@ public class InMemCustomerRepository implements CustomerRepository{
 
     public InMemCustomerRepository() {
         customers = new ArrayList<Customer>(){{
-            add(new Customer(1l, "Customer 1", new Address("Ukraine", "Kiev", "Peremogy","12b")));
-            add(new Customer(2l, "Customer 2", new Address("Ukraine", "Kiev", "Sechenova","6a")));
-            add(new Customer(3l, "Customer 3", new Address("Ukraine", "Kiev", "Kudriashova","14")));
-            add(new Customer(4l, "Customer 4", new Address("Ukraine", "Kiev", "Kudriashova","18")));
+            add(new Customer(1l, "Customer 1",
+                    new Address("Ukraine", "Kiev", "Peremogy","12b")));
+            add(new Customer(2l, "Customer 2",
+                    new Address("Ukraine", "Kiev", "Sechenova","6a")));
+            add(new Customer(3l, "Customer 3",
+                    new Address("Ukraine", "Kiev", "Kudriashova","14")));
+            add(new Customer(4l, "Customer 4",
+                    new Address("Ukraine", "Kiev", "Kudriashova","18")));
         }};
     }
 

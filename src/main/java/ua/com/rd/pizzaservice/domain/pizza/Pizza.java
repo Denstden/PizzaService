@@ -54,7 +54,7 @@ public class Pizza {
         this.type = type;
     }
 
-    public enum PizzaType{
+    public enum PizzaType {
         VEGETARIAN,
         SEA,
         MEAT
@@ -64,7 +64,7 @@ public class Pizza {
     public String toString() {
         return "Pizza{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + name +
                 ", price=" + price +
                 ", type=" + type +
                 '}';
