@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface CustomerService {
     boolean payForOrder(Order order);
+    Customer getCustomerById(Long id);
     List<Customer> findAll();
 }
