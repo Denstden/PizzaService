@@ -1,15 +1,22 @@
 package ua.com.rd.pizzaservice.service.discount;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.rd.pizzaservice.domain.discount.Discountable;
 import ua.com.rd.pizzaservice.domain.order.Order;
 
 import java.util.List;
 
+@Service
 public class DiscountServiceImpl implements DiscountService {
-    private DiscountProvider provider;
+    @Autowired
+    private DiscountProvider discountProvider;
 
-    public DiscountServiceImpl(DiscountProvider provider) {
-        this.provider = provider;
+    public DiscountServiceImpl() {
+    }
+
+    public void setDiscountProvider(DiscountProvider discountProvider) {
+        this.discountProvider = discountProvider;
     }
 
     @Override
@@ -23,14 +30,6 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     private List<Discountable> getDiscounts(Order order){
-        return provider.getDiscountsForOrder(order);
-    }
-
-    public DiscountProvider getProvider() {
-        return provider;
-    }
-
-    public void setProvider(DiscountProvider provider) {
-        this.provider = provider;
+        return discountProvider.getDiscountsForOrder(order);
     }
 }

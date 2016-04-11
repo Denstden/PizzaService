@@ -21,14 +21,16 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class CustomerServiceImplTest {
-    private CustomerService customerService;
+    private CustomerServiceImpl customerService;
 
     @Before
     public void setUp(){
-        CustomerRepository customerRepository = new InMemCustomerRepository();
-        AccumulativeCardService accumulativeCardService =
-                new AccumulativeCardServiceImpl(new InMemAccumulativeCardRepository());
-        customerService = new CustomerServiceImpl(customerRepository, accumulativeCardService);
+        AccumulativeCardServiceImpl cardService = new AccumulativeCardServiceImpl();
+        InMemAccumulativeCardRepository cardRepository = new InMemAccumulativeCardRepository();
+        cardService.setAccumulativeCardRepository(cardRepository);
+        customerService = new CustomerServiceImpl();
+        customerService.setAccumulativeCardService(cardService);
+        customerService.setCustomerRepository(new InMemCustomerRepository());
     }
 
     @Test

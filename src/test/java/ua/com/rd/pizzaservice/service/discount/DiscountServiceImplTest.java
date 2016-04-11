@@ -19,16 +19,19 @@ import static org.junit.Assert.assertEquals;
 
 public class DiscountServiceImplTest {
     private static final Double EPSILON = 0.0000001;
-    private DiscountService discountService;
-    private AccumulativeCardService accumulativeCardService;
+    private DiscountServiceImpl discountService;
+    private AccumulativeCardServiceImpl accumulativeCardService;
 
     @Before
     public void setUp(){
-        accumulativeCardService = new AccumulativeCardServiceImpl(new InMemAccumulativeCardRepository());
-        DiscountProvider discountProvider = new DiscountProvider(accumulativeCardService);
-        discountService = new DiscountServiceImpl(discountProvider);
+        accumulativeCardService = new AccumulativeCardServiceImpl();
+        accumulativeCardService.setAccumulativeCardRepository(new InMemAccumulativeCardRepository());
+        DiscountProvider discountProvider = new DiscountProvider();
+        discountProvider.setAccumulativeCardService(accumulativeCardService);
+        discountProvider.init();
+        discountService = new DiscountServiceImpl();
+        discountService.setDiscountProvider(discountProvider);
     }
-
     @Test
     public void calculateDiscountsShouldBeZero(){
         Customer customer = new Customer(1l,"name", new Address("C","c","st","b"));

@@ -2,6 +2,8 @@ package ua.com.rd.pizzaservice.domain.discount.pizzadiscount;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import static org.junit.Assert.assertEquals;
 

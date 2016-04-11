@@ -6,9 +6,6 @@ public class Pizza {
     private Double price;
     private PizzaType type;
 
-    public Pizza() {
-    }
-
     public Pizza(Long id, String name, Double price, PizzaType type) {
         this.id = id;
         this.name = name;

@@ -2,6 +2,9 @@ package ua.com.rd.pizzaservice.service.order;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
@@ -13,14 +16,27 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 public class SimpleOrderServiceTest {
+    private InMemPizzaRepository pizzaRepository;
+    private InMemOrderRepository orderRepository;
     private SimpleOrderService service;
     private Customer customer;
 
     @Before
     public void setUp(){
-        service = new SimpleOrderService(new InMemOrderRepository(), new InMemPizzaRepository());
+        service = new SimpleOrderService();
+        orderRepository = new InMemOrderRepository();
+        pizzaRepository = new InMemPizzaRepository();
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("repositoryContext.xml");
+        pizzaRepository.addPizza((Pizza) context.getBean("pizza1"));
+        pizzaRepository.addPizza((Pizza) context.getBean("pizza2"));
+        pizzaRepository.addPizza((Pizza) context.getBean("pizza3"));
+        pizzaRepository.addPizza((Pizza) context.getBean("pizza4"));
+        context.close();
+        service.setOrderRepository(orderRepository);
+        service.setPizzaRepository(pizzaRepository);
         customer = new Customer(1l,"name",new Address("C","c","s","b"));
     }
+
 
     @Test(expected = InvalidPizzasCountException.class)
     public void placeNewOrderNoPizzasShouldRiseException() throws InvalidPizzasCountException {
@@ -34,16 +50,15 @@ public class SimpleOrderServiceTest {
 
     @Test
     public void placeNewOrderShouldBeSavedToRepository() throws InvalidPizzasCountException {
-        Long countOfOrders = service.getOrderRepository().countOfOrders();
+        Long countOfOrders = orderRepository.countOfOrders();
         service.placeNewOrder(customer, 1l, 1l, 1l, 1l, 1l, 1l);
-        assertEquals(++countOfOrders, service.getOrderRepository().countOfOrders());
+        assertEquals(++countOfOrders, orderRepository.countOfOrders());
     }
-
     @Test(expected = InvalidPizzasCountException.class)
     public void addZeroPizzasToOrderShouldRiseException() throws InvalidPizzasCountException {
         Order order = new Order(customer, new ArrayList<Pizza>(){{
-            add(service.getPizzaRepository().getPizzaByID(1l));
-            add(service.getPizzaRepository().getPizzaByID(3l));
+            add(pizzaRepository.getPizzaByID(1l));
+            add(pizzaRepository.getPizzaByID(3l));
         }}
         );
         service.addPizzasToOrder(order, 2l, 0);
@@ -52,18 +67,18 @@ public class SimpleOrderServiceTest {
     @Test(expected = InvalidPizzasCountException.class)
     public void addPizzasToOrderSumMoreThanTenShouldRiseException() throws InvalidPizzasCountException {
         Order order = new Order(customer, new ArrayList<Pizza>(){{
-            add(service.getPizzaRepository().getPizzaByID(1l));
-            add(service.getPizzaRepository().getPizzaByID(3l));
+            add(pizzaRepository.getPizzaByID(1l));
+            add(pizzaRepository.getPizzaByID(3l));
         }}
         );
-        service.addPizzasToOrder(order,2l,9);
+        service.addPizzasToOrder(order, 2l, 9);
     }
 
     @Test
     public void addPizzasToOrderShouldBeAdded() throws InvalidPizzasCountException {
         Order order = new Order(customer, new ArrayList<Pizza>(){{
-            add(service.getPizzaRepository().getPizzaByID(1l));
-            add(service.getPizzaRepository().getPizzaByID(3l));
+            add(pizzaRepository.getPizzaByID(1l));
+            add(pizzaRepository.getPizzaByID(3l));
         }}
         );
         Integer count = order.getPizzasCount();

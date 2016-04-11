@@ -1,5 +1,7 @@
 package ua.com.rd.pizzaservice.service.discount;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.domain.discount.*;
@@ -15,27 +17,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class DiscountProvider {
-    private AccumulativeCardService service;
+    @Autowired
+    private AccumulativeCardService accumulativeCardService;
     private Set<PizzaDiscount> pizzaDiscounts = new HashSet<>();
     private Set<AccumulativeCardDiscount> cardDiscounts = new HashSet<>();
 
-    {
+    public DiscountProvider() {
+    }
+
+    public void init(){
         pizzaDiscounts.add(new DiscountMostExpensivePizzaMoreThanNKPercents(4, 50d));
         pizzaDiscounts.add(new DiscountEachNPizzaKPercents(3, 30d));
         cardDiscounts.add(new AccumulativeCardDiscount());
     }
 
-    public DiscountProvider(AccumulativeCardService service) {
-        this.service = service;
-    }
-
-    public AccumulativeCardService getService() {
-        return service;
-    }
-
-    public void setService(AccumulativeCardService service) {
-        this.service = service;
+    public void setAccumulativeCardService(AccumulativeCardService accumulativeCardService) {
+        this.accumulativeCardService = accumulativeCardService;
     }
 
     public void addDiscount(Discountable discount){
@@ -65,7 +64,7 @@ public class DiscountProvider {
 
     private void addCardDiscounts(Order order, List<Discountable> discounts) {
         try {
-            AccumulativeCard card = service.findCard(order.getCustomer());
+            AccumulativeCard card = accumulativeCardService.findCard(order.getCustomer());
             for (AccumulativeCardDiscount discount:cardDiscounts){
                 discount.setFinalOrderPrice(order.getFinalPrice());
                 discount.setCard(card);

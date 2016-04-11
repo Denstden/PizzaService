@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccumulativeCardServiceImplTest {
-    private AccumulativeCardService service;
+    private AccumulativeCardServiceImpl service;
     private AccumulativeCardRepository repository;
     private Customer customer;
 
@@ -25,14 +25,16 @@ public class AccumulativeCardServiceImplTest {
     public void setUp(){
         customer = new Customer(1l,"Customer",new Address("UA","KIEV","SECHENOVA","12"));
         repository = new InMemAccumulativeCardRepository();
-        service = new AccumulativeCardServiceImpl(repository);
+        service = new AccumulativeCardServiceImpl();
+        service.setAccumulativeCardRepository(repository);
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void giveCardShouldBeCallAddCardOneTime(){
         repository = mock(AccumulativeCardRepository.class);
-        service = new AccumulativeCardServiceImpl(repository);
+        service = new AccumulativeCardServiceImpl();
+        service.setAccumulativeCardRepository(repository);
         service.giveCard(customer);
         verify(repository, times(1)).addCard(customer);
     }
@@ -51,7 +53,8 @@ public class AccumulativeCardServiceImplTest {
     @Test
     public void deleteCardShouldBeCallDeleteCardOneTime() throws NoAccumulativeCardException {
         InMemAccumulativeCardRepository repository = spy(new InMemAccumulativeCardRepository());
-        service = new AccumulativeCardServiceImpl(repository);
+        service = new AccumulativeCardServiceImpl();
+        service.setAccumulativeCardRepository(repository);
         service.giveCard(customer);
         service.deleteCard(customer);
         verify(repository, times(1)).deleteCard(customer);

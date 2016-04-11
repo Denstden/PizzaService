@@ -1,21 +1,28 @@
 package ua.com.rd.pizzaservice.service.card;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.repository.card.AccumulativeCardRepository;
 
+@Service
 public class AccumulativeCardServiceImpl implements AccumulativeCardService {
-    private AccumulativeCardRepository repository;
+    @Autowired
+    private AccumulativeCardRepository accumulativeCardRepository;
 
-    public AccumulativeCardServiceImpl(AccumulativeCardRepository repository) {
-        this.repository = repository;
+    public AccumulativeCardServiceImpl() {
+    }
+
+    public void setAccumulativeCardRepository(AccumulativeCardRepository accumulativeCardRepository) {
+        this.accumulativeCardRepository = accumulativeCardRepository;
     }
 
     @Override
     public AccumulativeCard findCard(Customer customer)
             throws NoAccumulativeCardException {
-        for (AccumulativeCard card:repository.getCards()){
+        for (AccumulativeCard card: accumulativeCardRepository.getCards()){
             if (customer.getId().equals(card.getCustomer().getId())){
                 return card;
             }
@@ -25,15 +32,15 @@ public class AccumulativeCardServiceImpl implements AccumulativeCardService {
 
     @Override
     public AccumulativeCard giveCard(Customer customer) {
-        return repository.addCard(customer);
+        return accumulativeCardRepository.addCard(customer);
     }
 
     @Override
     public void deleteCard(Customer customer) {
-        for (AccumulativeCard card:repository.getCards()){
+        for (AccumulativeCard card: accumulativeCardRepository.getCards()){
             if (customer.getId().equals(card.getCustomer().getId())){
                 try {
-                    repository.deleteCard(customer);
+                    accumulativeCardRepository.deleteCard(customer);
                 } catch (NoAccumulativeCardException ignored) {
                 }
             }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+       <context:component-scan base-package="ua.com.rd.pizzaservice.repository"/>
+
+       <bean id="accumulativeCardRepository" class="ua.com.rd.pizzaservice.repository.card.InMemAccumulativeCardRepository"/>
+       <bean id="customerRepository" class="ua.com.rd.pizzaservice.repository.customer.InMemCustomerRepository"/>
+       <bean id="orderRepository" class="ua.com.rd.pizzaservice.repository.order.InMemOrderRepository"/>
+       <bean id="pizzaRepository" class="ua.com.rd.pizzaservice.repository.pizza.InMemPizzaRepository"/>
+       
+       
+       <bean id="customers" class="java.util.ArrayList">
+              <constructor-arg>
+                     <list value-type="ua.com.rd.pizzaservice.domain.customer.Customer">
+                            <ref bean="customer1"/>
+                            <ref bean="customer2"/>
+                            <ref bean="customer3"/>
+                            <ref bean="customer4"/>
+                     </list>
+              </constructor-arg>
+       </bean>
+
+       <bean id="customer1" class="ua.com.rd.pizzaservice.domain.customer.Customer">
+              <constructor-arg index="0" value="1"/>
+              <constructor-arg index="1" value="Customer1"/>
+              <constructor-arg index="2" ref="address1"/>
+       </bean>
+       <bean id="customer2" class="ua.com.rd.pizzaservice.domain.customer.Customer">
+              <constructor-arg index="0" value="2"/>
+              <constructor-arg index="1" value="Customer2"/>
+              <constructor-arg index="2" ref="address2"/>
+       </bean>
+       <bean id="customer3" class="ua.com.rd.pizzaservice.domain.customer.Customer">
+              <constructor-arg index="0" value="3"/>
+              <constructor-arg index="1" value="Customer3"/>
+              <constructor-arg index="2" ref="address2"/>
+       </bean>
+       <bean id="customer4" class="ua.com.rd.pizzaservice.domain.customer.Customer">
+              <constructor-arg index="0" value="4"/>
+              <constructor-arg index="1" value="Customer4"/>
+              <constructor-arg index="2" ref="address1"/>
+       </bean>
+
+       <bean id="address1" class="ua.com.rd.pizzaservice.domain.address.Address">
+              <constructor-arg index="0" value="Country1"/>
+              <constructor-arg index="1" value="City1"/>
+              <constructor-arg index="2" value="Street1"/>
+              <constructor-arg index="3" value="Building1"/>
+       </bean>
+       <bean id="address2" class="ua.com.rd.pizzaservice.domain.address.Address">
+              <constructor-arg index="0" value="Country2"/>
+              <constructor-arg index="1" value="City2"/>
+              <constructor-arg index="2" value="Street2"/>
+              <constructor-arg index="3" value="Building2"/>
+       </bean>
+
+       <bean id="pizzas" class="java.util.ArrayList">
+              <constructor-arg>
+                     <list value-type="ua.com.rd.pizzaservice.domain.pizza.Pizza">
+                            <ref bean="pizza1"/>
+                            <ref bean="pizza2"/>
+                            <ref bean="pizza3"/>
+                            <ref bean="pizza4"/>
+                     </list>
+              </constructor-arg>
+       </bean>
+
+       <bean id="pizza1" class="ua.com.rd.pizzaservice.domain.pizza.Pizza">
+              <constructor-arg index="0" value="1"/>
+              <constructor-arg index="1" value="Margarita"/>
+              <constructor-arg index="2" value="180"/>
+              <constructor-arg index="3" value="MEAT"/>
+       </bean>
+       <bean id="pizza2" class="ua.com.rd.pizzaservice.domain.pizza.Pizza">
+              <constructor-arg index="0" value="2"/>
+              <constructor-arg index="1" value="Barbecue"/>
+              <constructor-arg index="2" value="120"/>
+              <constructor-arg index="3" value="MEAT"/>
+       </bean>
+       <bean id="pizza3" class="ua.com.rd.pizzaservice.domain.pizza.Pizza">
+              <constructor-arg index="0" value="3"/>
+              <constructor-arg index="1" value="Four seasons"/>
+              <constructor-arg index="2" value="130"/>
+              <constructor-arg index="3" value="VEGETARIAN"/>
+       </bean>
+       <bean id="pizza4" class="ua.com.rd.pizzaservice.domain.pizza.Pizza">
+              <constructor-arg index="0" value="4"/>
+              <constructor-arg index="1" value="Sea pizza"/>
+              <constructor-arg index="2" value="150"/>
+              <constructor-arg index="3" value="SEA"/>
+       </bean>
+</beans>

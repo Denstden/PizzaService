@@ -1,5 +1,7 @@
 package ua.com.rd.pizzaservice.service.customer;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.domain.order.IncorrectStateException;
@@ -9,14 +11,22 @@ import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 
 import java.util.List;
 
+@Service
 public class CustomerServiceImpl implements CustomerService {
+    @Autowired
     private CustomerRepository customerRepository;
-    private AccumulativeCardService cardService;
+    @Autowired
+    private AccumulativeCardService accumulativeCardService;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository,
-                               AccumulativeCardService cardService) {
+    public CustomerServiceImpl() {
+    }
+
+    public void setCustomerRepository(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-        this.cardService = cardService;
+    }
+
+    public void setAccumulativeCardService(AccumulativeCardService accumulativeCardService) {
+        this.accumulativeCardService = accumulativeCardService;
     }
 
     @Override
@@ -31,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         try {
             order.done();
-            cardService.findCard(order.getCustomer()).addCash(
+            accumulativeCardService.findCard(order.getCustomer()).addCash(
                     order.getFinalPrice());
         } catch (IncorrectStateException e) {
             e.printStackTrace();

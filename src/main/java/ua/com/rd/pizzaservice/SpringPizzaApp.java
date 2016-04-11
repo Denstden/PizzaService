@@ -12,8 +12,11 @@ import ua.com.rd.pizzaservice.service.order.OrderService;
 
 public class SpringPizzaApp {
     public static void main(String[] args) throws InvalidPizzasCountException, NoAccumulativeCardException {
+        ConfigurableApplicationContext repositoryContext =
+                new ClassPathXmlApplicationContext("repositoryContext.xml");
         ConfigurableApplicationContext context =
-                new ClassPathXmlApplicationContext("context.xml");
+                new ClassPathXmlApplicationContext(new String[]{"appContext.xml"},
+                        repositoryContext);
 
         OrderService orderService = context.getBean("orderService", OrderService.class);
         AccumulativeCardService cardService =
@@ -21,19 +24,23 @@ public class SpringPizzaApp {
         CustomerService customerService = context.getBean("customerService", CustomerService.class);
         DiscountService discountService = context.getBean("discountService", DiscountService.class);
 
-        Order order = orderService.placeNewOrder(customerService.getCustomerById(1l), 1l);//180
-        orderService.addPizzasToOrder(order, 2l, 6);//720
-        orderService.addPizzasToOrder(order, 3l, 3);//390
+        Order order = orderService.placeNewOrder(customerService.getCustomerById(1l), 1l);//total price = 180
+        orderService.addPizzasToOrder(order, 2l, 6);//total price = 180+720=900
+        orderService.addPizzasToOrder(order, 3l, 3);//total price = 900+390=1290
         System.out.println("Discounts for order: " + discountService.calculateDiscounts(order));
         cardService.giveCard(customerService.getCustomerById(1l));
         customerService.payForOrder(order);
         System.out.println("Cash on card: " + cardService.findCard(order.getCustomer()).getCash());
+        System.out.println();
 
-        order = orderService.placeNewOrder(customerService.getCustomerById(1l), 1l);//180
-        orderService.addPizzasToOrder(order, 2l, 6);//720
-        orderService.addPizzasToOrder(order, 3l, 3);//390
-        System.out.println("Discounts for order: "+discountService.calculateDiscounts(order));
+        order = orderService.placeNewOrder(customerService.getCustomerById(1l), 1l);//total price = 180
+        orderService.addPizzasToOrder(order, 2l, 6);//total price = 180+720=900
+        orderService.addPizzasToOrder(order, 3l, 3);//total price = 900+390=1290
+        System.out.println("Discounts for order: " + discountService.calculateDiscounts(order));
         customerService.payForOrder(order);
         System.out.println("Cash on card: " + cardService.findCard(order.getCustomer()).getCash());
+
+        context.close();
+        repositoryContext.close();
     }
 }

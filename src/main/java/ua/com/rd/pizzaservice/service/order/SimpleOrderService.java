@@ -1,5 +1,7 @@
 package ua.com.rd.pizzaservice.service.order;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
@@ -9,30 +11,23 @@ import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class SimpleOrderService implements OrderService {
     private static final Integer MAX_COUNT_OF_PIZZAS_IN_ORDER = 10;
+    @Autowired
     private OrderRepository orderRepository;
+    @Autowired
     private PizzaRepository pizzaRepository;
 
-    public SimpleOrderService(OrderRepository orderRepository, PizzaRepository pizzaRepository) {
-        this.orderRepository = orderRepository;
-        this.pizzaRepository = pizzaRepository;
-    }
-
-    public PizzaRepository getPizzaRepository() {
-        return pizzaRepository;
-    }
-
-    public void setPizzaRepository(PizzaRepository pizzaRepository) {
-        this.pizzaRepository = pizzaRepository;
-    }
-
-    public OrderRepository getOrderRepository() {
-        return orderRepository;
+    public SimpleOrderService() {
     }
 
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
+    }
+
+    public void setPizzaRepository(PizzaRepository pizzaRepository) {
+        this.pizzaRepository = pizzaRepository;
     }
 
     @Override
