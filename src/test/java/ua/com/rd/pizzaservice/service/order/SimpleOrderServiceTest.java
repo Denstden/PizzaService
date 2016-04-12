@@ -48,12 +48,6 @@ public class SimpleOrderServiceTest {
         service.placeNewOrder(customer, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l, 1l);
     }
 
-    @Test
-    public void placeNewOrderShouldBeSavedToRepository() throws InvalidPizzasCountException {
-        Long countOfOrders = orderRepository.countOfOrders();
-        service.placeNewOrder(customer, 1l, 1l, 1l, 1l, 1l, 1l);
-        assertEquals(++countOfOrders, orderRepository.countOfOrders());
-    }
     @Test(expected = InvalidPizzasCountException.class)
     public void addZeroPizzasToOrderShouldRiseException() throws InvalidPizzasCountException {
         Order order = new Order(customer, new ArrayList<Pizza>(){{
