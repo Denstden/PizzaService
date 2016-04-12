@@ -9,13 +9,8 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
 
        <context:component-scan base-package="ua.com.rd.pizzaservice.repository"/>
+       <!--<context:component-scan base-package="ua.com.rd.pizzaservice.domain.order"/>-->
 
-       <bean id="accumulativeCardRepository" class="ua.com.rd.pizzaservice.repository.card.InMemAccumulativeCardRepository"/>
-       <bean id="customerRepository" class="ua.com.rd.pizzaservice.repository.customer.InMemCustomerRepository"/>
-       <bean id="orderRepository" class="ua.com.rd.pizzaservice.repository.order.InMemOrderRepository"/>
-       <bean id="pizzaRepository" class="ua.com.rd.pizzaservice.repository.pizza.InMemPizzaRepository"/>
-       
-       
        <bean id="customers" class="java.util.ArrayList">
               <constructor-arg>
                      <list value-type="ua.com.rd.pizzaservice.domain.customer.Customer">

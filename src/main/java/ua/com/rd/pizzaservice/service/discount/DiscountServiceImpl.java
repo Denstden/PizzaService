@@ -7,7 +7,7 @@ import ua.com.rd.pizzaservice.domain.order.Order;
 
 import java.util.List;
 
-@Service
+@Service("discountService")
 public class DiscountServiceImpl implements DiscountService {
     @Autowired
     private DiscountProvider discountProvider;

@@ -12,12 +12,13 @@ import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Service
+@Service("discountProvider")
 public class DiscountProvider {
     @Autowired
     private AccumulativeCardService accumulativeCardService;
@@ -27,6 +28,7 @@ public class DiscountProvider {
     public DiscountProvider() {
     }
 
+    @PostConstruct
     public void init(){
         pizzaDiscounts.add(new DiscountMostExpensivePizzaMoreThanNKPercents(4, 50d));
         pizzaDiscounts.add(new DiscountEachNPizzaKPercents(3, 30d));

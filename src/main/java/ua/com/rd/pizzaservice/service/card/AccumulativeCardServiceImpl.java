@@ -7,7 +7,7 @@ import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.repository.card.AccumulativeCardRepository;
 
-@Service
+@Service("accumulativeCardService")
 public class AccumulativeCardServiceImpl implements AccumulativeCardService {
     @Autowired
     private AccumulativeCardRepository accumulativeCardRepository;

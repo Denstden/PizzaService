@@ -1,6 +1,7 @@
 package ua.com.rd.pizzaservice.service.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
@@ -11,7 +12,7 @@ import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("orderService")
 public class SimpleOrderService implements OrderService {
     private static final Integer MAX_COUNT_OF_PIZZAS_IN_ORDER = 10;
     @Autowired
@@ -37,7 +38,9 @@ public class SimpleOrderService implements OrderService {
             throw new InvalidPizzasCountException();
         }
         List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
-        Order newOrder = createOrder(customer, pizzas);
+        Order newOrder = createOrder();
+        newOrder.setCustomer(customer);
+        newOrder.setPizzaList(pizzas);
 
         orderRepository.saveOrder(newOrder);  // set Order Id and save Order to in-memory list
         return newOrder;
@@ -55,8 +58,9 @@ public class SimpleOrderService implements OrderService {
         return true;
     }
 
-    private Order createOrder(Customer customer, List<Pizza> pizzas) {
-        return new Order(customer, pizzas);
+    @Lookup
+    protected Order createOrder() {
+        return null;
     }
 
     private List<Pizza> pizzasByArrOfId(Long ... pizzasID) {

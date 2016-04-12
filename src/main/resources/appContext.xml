@@ -8,12 +8,7 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-       <context:component-scan base-package="ua.com.rd.pizzaservice.service"/>
+       <context:component-scan base-package="ua.com.rd.pizzaservice"/>
 
-       <bean id="accumulativeCardService" class="ua.com.rd.pizzaservice.service.card.AccumulativeCardServiceImpl"/>
-       <bean id="customerService" class="ua.com.rd.pizzaservice.service.customer.CustomerServiceImpl"/>
-       <bean id="discountProvider" class="ua.com.rd.pizzaservice.service.discount.DiscountProvider" init-method="init"/>
-       <bean id="discountService" class="ua.com.rd.pizzaservice.service.discount.DiscountServiceImpl"/>
-       <bean id="orderService" class="ua.com.rd.pizzaservice.service.order.SimpleOrderService"/>
-
+       <!--<bean name="order" class="ua.com.rd.pizzaservice.domain.order.Order" scope="prototype"/>-->
 </beans>

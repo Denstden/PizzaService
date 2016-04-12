@@ -1,29 +1,36 @@
 package ua.com.rd.pizzaservice.domain.order;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import ua.com.rd.pizzaservice.domain.order.state.*;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 
 import java.util.List;
 
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Order {
     private static Long currentId = 0L;
     private Long id;
     private Customer customer;
     private List<Pizza> pizzaList;
-    private Double finalPrice;
+    private Double finalPrice = 0d;
     private static State newState = new NewState();
     private static State inProgressState = new InProgressState();
     private static State canceledState = new CanceledState();
     private static State doneState = new DoneState();
-    private State currentState;
+    private State currentState = newState;
+
+    public Order() {
+        this.id = currentId++;
+    }
 
     public Order(Customer customer, List<Pizza> pizzaList) {
         this.id = currentId++;
         this.customer = customer;
         this.pizzaList = pizzaList;
-        currentState = new NewState();
-        this.finalPrice = 0d;
         calculatePrice();
     }
 
