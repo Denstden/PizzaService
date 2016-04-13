@@ -8,7 +8,7 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-       <context:component-scan base-package="ua.com.rd.pizzaservice"/>
+       <context:component-scan base-package="ua.com.rd.pizzaservice.service"/>
+       <context:component-scan base-package="ua.com.rd.pizzaservice.domain.order"/>
 
-       <!--<bean name="order" class="ua.com.rd.pizzaservice.domain.order.Order" scope="prototype"/>-->
 </beans>
