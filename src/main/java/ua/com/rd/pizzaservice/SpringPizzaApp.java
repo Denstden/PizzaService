@@ -18,11 +18,11 @@ public class SpringPizzaApp {
                 new ClassPathXmlApplicationContext(new String[]{"appContext.xml"},
                         repositoryContext);
 
-        OrderService orderService = context.getBean("orderService", OrderService.class);
+        OrderService orderService = context.getBean("simpleOrderService", OrderService.class);
         AccumulativeCardService cardService =
-                context.getBean("accumulativeCardService", AccumulativeCardService.class);
-        CustomerService customerService = context.getBean("customerService", CustomerService.class);
-        DiscountService discountService = context.getBean("discountService", DiscountService.class);
+                context.getBean("accumulativeCardServiceImpl", AccumulativeCardService.class);
+        CustomerService customerService = context.getBean("customerServiceImpl", CustomerService.class);
+        DiscountService discountService = context.getBean("discountServiceImpl", DiscountService.class);
 
         Order order = orderService.placeNewOrder(customerService.getCustomerById(1l), 1l);//total price = 180
         orderService.addPizzasToOrder(order, 2l, 6);//total price = 180+720=900

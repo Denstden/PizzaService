@@ -12,7 +12,7 @@ import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("orderService")
+@Service
 public class SimpleOrderService implements OrderService {
     private static final Integer MAX_COUNT_OF_PIZZAS_IN_ORDER = 10;
     @Autowired

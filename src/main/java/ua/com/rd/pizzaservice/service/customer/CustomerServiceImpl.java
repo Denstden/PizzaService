@@ -11,7 +11,7 @@ import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 
 import java.util.List;
 
-@Service("customerService")
+@Service
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
