@@ -1,10 +1,43 @@
 package ua.com.rd.pizzaservice.domain.address;
 
+import org.springframework.stereotype.Component;
+import ua.com.rd.pizzaservice.domain.customer.Customer;
+import ua.com.rd.pizzaservice.domain.order.Order;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+
+@Entity
+@Table(name = "ADDRESSES")
 public class Address {
+    @Id
+    @SequenceGenerator(name="ADDRESS_SEQ", initialValue=1, allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ADDRESS_SEQ")
+    @Column(name = "ADDRESS_ID")
+    private Long id;
+
+    @Column(name = "COUNTRY")
     private String country;
+
+    @Column(name = "CITY")
     private String city;
+
+    @Column(name = "STREET")
     private String street;
+
+    @Column(name = "BUILDING")
     private String building;
+
+    @ManyToMany
+    private Set<Customer> customer = new HashSet<>();
+
+    @OneToMany(mappedBy = "address")
+    private Set<Order> order = new HashSet<>();
+
+    public Address(){
+    }
 
     public Address(String country, String city, String street, String building) {
         this.country = country;

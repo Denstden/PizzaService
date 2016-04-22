@@ -13,10 +13,7 @@ import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class DiscountProvider {
@@ -59,7 +56,7 @@ public class DiscountProvider {
 
     public List<Discountable> getDiscountsForOrder(Order order){
         List<Discountable> discounts = new ArrayList<>();
-        addPizzaDiscounts(order.getPizzaList(), discounts);
+        addPizzaDiscounts(order.getPizzas(), discounts);
         addCardDiscounts(order, discounts);
         return discounts;
     }
@@ -76,7 +73,7 @@ public class DiscountProvider {
         }
     }
 
-    private void addPizzaDiscounts(List<Pizza> pizzas, List<Discountable> discounts) {
+    private void addPizzaDiscounts(Map<Pizza, Integer> pizzas, List<Discountable> discounts) {
         if (pizzas.size()>0) {
             for (PizzaDiscount discount : pizzaDiscounts) {
                 discount.setPizzas(pizzas);

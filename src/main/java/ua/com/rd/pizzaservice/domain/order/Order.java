@@ -3,41 +3,56 @@ package ua.com.rd.pizzaservice.domain.order;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.order.state.*;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 
-import java.util.List;
+import javax.persistence.*;
+import java.util.*;
 
+@Entity
+@Table(name = "ORDERS")
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Order {
-    private static Long currentId = 0L;
+    @Id
+    @SequenceGenerator(name="ORDER_SEQ", initialValue=1, allocationSize=1)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="ORDER_SEQ")
+    @Column(name = "ORDER_ID")
     private Long id;
+
+    @ManyToOne
     private Customer customer;
-    private List<Pizza> pizzaList;
+
+    @Column(name = "FINAL_PRICE")
     private Double finalPrice = 0d;
+
+    @Convert(converter = StateConverter.class)
+    private State currentState = newState;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "CREATION_DATE")
+    private Date creationDate;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "DONE_DATE")
+    private Date doneDate;
+
+    @ManyToOne
+    private Address address;
+
+    @ElementCollection
+    @CollectionTable(name="ORDERS_PIZZAS")
+    @MapKeyJoinColumn(name = "COUNT_PIZZAS")
+    private Map<Pizza, Integer> pizzas = new HashMap<>();
+
     private static State newState = new NewState();
     private static State inProgressState = new InProgressState();
     private static State canceledState = new CanceledState();
     private static State doneState = new DoneState();
-    private State currentState = newState;
 
     public Order() {
-        this.id = currentId++;
-    }
-
-    public Order(Customer customer, List<Pizza> pizzaList) {
-        this.id = currentId++;
-        this.customer = customer;
-        this.pizzaList = pizzaList;
-        calculatePrice();
-    }
-
-    private void calculatePrice() {
-        for (Pizza pizza : pizzaList) {
-            finalPrice += pizza.getPrice();
-        }
     }
 
     public Long getId() {
@@ -56,14 +71,19 @@ public class Order {
         this.customer = customer;
     }
 
-    public List<Pizza> getPizzaList() {
-        return pizzaList;
+    public Map<Pizza, Integer> getPizzas() {
+        return pizzas;
     }
 
-    public void setPizzaList(List<Pizza> pizzaList) {
-        this.finalPrice = 0d;
-        this.pizzaList = pizzaList;
+    public void setPizzas(Map<Pizza, Integer> pizzas) {
+        this.pizzas = pizzas;
         calculatePrice();
+    }
+
+    private void calculatePrice() {
+        for (Map.Entry<Pizza, Integer> entry: pizzas.entrySet()) {
+            finalPrice += entry.getKey().getPrice()*entry.getValue();
+        }
     }
 
     public Double getFinalPrice() {
@@ -82,34 +102,55 @@ public class Order {
         return currentState;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getDoneDate() {
+        return doneDate;
+    }
+
+    public void setDoneDate(Date doneDate) {
+        this.doneDate = doneDate;
+    }
+
     public void progress() throws IncorrectStateException {
         if (currentState.equals(newState)) {
-            currentState = new InProgressState();
+            currentState = inProgressState;
         } else throw new IncorrectStateException("In progress state " +
                 "must be after new state.");
     }
 
     public void cancel() throws IncorrectStateException {
         if (currentState.equals(inProgressState)) {
-            currentState = new CanceledState();
+            currentState = canceledState;
         } else throw new IncorrectStateException("Canceled state " +
                 "must be after in progress state.");
     }
 
     public void done() throws IncorrectStateException {
         if (currentState.equals(inProgressState)) {
-            currentState = new DoneState();
+            currentState = doneState;
         } else throw new IncorrectStateException("Done state " +
                 "must be after in progress state.");
     }
 
     public Integer getPizzasCount() {
-        return pizzaList.size();
+        return pizzas.size();
     }
 
-    public void addPizza(Pizza pizza) {
-        pizzaList.add(pizza);
-        finalPrice += pizza.getPrice();
+    public void addPizza(Pizza pizza, Integer count) {
+        if (pizzas.containsKey(pizza)){
+            pizzas.replace(pizza, pizzas.get(pizza)+count);
+        }
+        else {
+            pizzas.put(pizza, count);
+        }
+        finalPrice += pizza.getPrice()*count;
     }
 
     @Override
@@ -117,7 +158,7 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", customer=" + customer +
-                ", pizzaList=" + pizzaList +
+                ", pizzas=" + pizzas +
                 ", status=" + currentState +
                 '}';
     }

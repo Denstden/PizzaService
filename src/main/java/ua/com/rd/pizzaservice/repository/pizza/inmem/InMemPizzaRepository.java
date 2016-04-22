@@ -1,8 +1,9 @@
-package ua.com.rd.pizzaservice.repository.pizza;
+package ua.com.rd.pizzaservice.repository.pizza.inmem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
+import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,5 +30,17 @@ public class InMemPizzaRepository implements PizzaRepository {
             }
         }
         return null;
+    }
+
+    @Override
+    public void update(Pizza pizza) {
+        Pizza pizza1 = getPizzaByID(pizza.getId());
+        pizzaList.remove(pizza1);
+        pizzaList.add(pizza);
+    }
+
+    @Override
+    public void delete(Pizza pizza) {
+        pizzaList.remove(pizza);
     }
 }

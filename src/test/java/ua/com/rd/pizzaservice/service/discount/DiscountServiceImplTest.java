@@ -22,7 +22,7 @@ public class DiscountServiceImplTest {
     private DiscountServiceImpl discountService;
     private AccumulativeCardServiceImpl accumulativeCardService;
 
-    @Before
+    /*@Before
     public void setUp(){
         accumulativeCardService = new AccumulativeCardServiceImpl();
         accumulativeCardService.setAccumulativeCardRepository(new InMemAccumulativeCardRepository());
@@ -83,6 +83,6 @@ public class DiscountServiceImplTest {
         }};
         Order order = new Order(customer,pizzas);
         assertEquals(220., discountService.calculateDiscounts(order), EPSILON);
-    }
+    }*/
 
 }

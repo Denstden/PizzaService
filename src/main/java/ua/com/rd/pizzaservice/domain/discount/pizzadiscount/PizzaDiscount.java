@@ -4,7 +4,8 @@ import ua.com.rd.pizzaservice.domain.discount.Discountable;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PizzaDiscount extends Discountable {
-    void setPizzas(List<Pizza> pizzas);
+    void setPizzas(Map<Pizza, Integer> pizzas);
 }

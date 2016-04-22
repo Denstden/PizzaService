@@ -11,7 +11,9 @@ import ua.com.rd.pizzaservice.domain.order.state.NewState;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,13 +22,15 @@ public class OrderTest {
 
     @Before
     public void setUp(){
-        List<Pizza> pizzaList = new ArrayList<Pizza>(){{
-            add(new Pizza(1l, "Margarita", 180., Pizza.PizzaType.MEAT));
-            add(new Pizza(2l, "Barbecue", 120., Pizza.PizzaType.MEAT));
-            add(new Pizza(3l, "Four seasons", 130., Pizza.PizzaType.VEGETARIAN));
-            add(new Pizza(4l, "Sea pizza", 150., Pizza.PizzaType.SEA));
+        Map<Pizza, Integer> pizzaList = new HashMap<Pizza, Integer>(){{
+            put(new Pizza(1l, "Margarita", 180., Pizza.PizzaType.MEAT), 1);
+            put(new Pizza(2l, "Barbecue", 120., Pizza.PizzaType.MEAT), 1);
+            put(new Pizza(3l, "Four seasons", 130., Pizza.PizzaType.VEGETARIAN), 1);
+            put(new Pizza(4l, "Sea pizza", 150., Pizza.PizzaType.SEA), 1);
         }};
-        order = new Order(new Customer(1l,"Customer",new Address("C","c","str","b")), pizzaList);
+        order = new Order();
+        order.setCustomer(new Customer(1l,"Customer",new Address("C","c","str","b")));
+        order.setPizzas(pizzaList);
     }
 
     @Test
@@ -73,7 +77,7 @@ public class OrderTest {
     @Test
     public void addPizzaShouldBeIncrementOneTime(){
         Integer count = order.getPizzasCount();
-        order.addPizza(new Pizza(5l, "Barbecue2", 130., Pizza.PizzaType.MEAT));
+        order.addPizza(new Pizza(5l, "Barbecue2", 130., Pizza.PizzaType.MEAT), 1);
         assertEquals(++count, order.getPizzasCount());
     }
 }

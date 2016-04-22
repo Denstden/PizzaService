@@ -1,10 +1,28 @@
 package ua.com.rd.pizzaservice.domain.pizza;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "PIZZAS")
 public class Pizza {
+    @Id
+    @SequenceGenerator(name="PIZZA_SEQ", initialValue=1, allocationSize=1)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="PIZZA_SEQ")
+    @Column(name = "PIZZA_ID")
     private Long id;
+
+    @Column(name = "PIZZA_NAME")
     private String name;
+
+    @Column(name = "PRICE")
     private Double price;
+
+    @Column(name = "PIZZA_TYPE")
+    @Enumerated(EnumType.STRING)
     private PizzaType type;
+
+    public Pizza(){
+    }
 
     public Pizza(Long id, String name, Double price, PizzaType type) {
         this.id = id;

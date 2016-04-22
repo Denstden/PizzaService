@@ -2,10 +2,8 @@ package ua.com.rd.pizzaservice.repository.pizza;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
+import ua.com.rd.pizzaservice.repository.pizza.inmem.InMemPizzaRepository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

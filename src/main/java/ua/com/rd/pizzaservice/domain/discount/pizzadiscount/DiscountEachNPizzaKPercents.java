@@ -3,12 +3,14 @@ package ua.com.rd.pizzaservice.domain.discount.pizzadiscount;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DiscountEachNPizzaKPercents implements PizzaDiscount {
     private Integer n;
     private Double percents;
-    private List<Pizza> pizzas = new ArrayList<>();
+    private Map<Pizza, Integer> pizzas = new HashMap<>();
 
     public DiscountEachNPizzaKPercents(Integer n, Double percents) {
         this.n = n;
@@ -31,12 +33,12 @@ public class DiscountEachNPizzaKPercents implements PizzaDiscount {
         this.percents = percents;
     }
 
-    public List<Pizza> getPizzas() {
+    public Map<Pizza, Integer> getPizzas() {
         return pizzas;
     }
 
     @Override
-    public void setPizzas(List<Pizza> pizzas) {
+    public void setPizzas(Map<Pizza, Integer> pizzas) {
         this.pizzas = pizzas;
     }
 
@@ -44,9 +46,15 @@ public class DiscountEachNPizzaKPercents implements PizzaDiscount {
     public Double calculate() {
         Double finalDiscount = 0.;
         int i = 1;
-        for (Pizza pizza : pizzas) {
+        for (Map.Entry<Pizza, Integer> entry: pizzas.entrySet()){
+            for (int j=0;j<entry.getValue();j++){
+                if (i % n == 0) {
+                    finalDiscount += entry.getKey().getPrice() * percents / 100;
+                }
+                i++;
+            }
             if (i % n == 0) {
-                finalDiscount += pizza.getPrice() * percents / 100;
+                finalDiscount += entry.getKey().getPrice() * percents / 100;
             }
             i++;
         }
