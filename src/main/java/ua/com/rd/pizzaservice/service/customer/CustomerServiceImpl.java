@@ -2,6 +2,7 @@ package ua.com.rd.pizzaservice.service.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.domain.order.IncorrectStateException;
@@ -12,6 +13,7 @@ import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 import java.util.List;
 
 @Service
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
@@ -51,11 +53,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Customer getCustomerById(Long id) {
         return customerRepository.getCustomerById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }

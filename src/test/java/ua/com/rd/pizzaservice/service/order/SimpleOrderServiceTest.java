@@ -11,11 +11,9 @@ import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
-import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
-import ua.com.rd.pizzaservice.repository.order.InMemOrderRepository;
+import ua.com.rd.pizzaservice.repository.order.inmem.InMemOrderRepository;
 import ua.com.rd.pizzaservice.repository.pizza.inmem.InMemPizzaRepository;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 

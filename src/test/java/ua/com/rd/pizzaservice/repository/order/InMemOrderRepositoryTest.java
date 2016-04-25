@@ -1,14 +1,6 @@
 package ua.com.rd.pizzaservice.repository.order;
 
-import org.junit.Before;
-import org.junit.Test;
-import ua.com.rd.pizzaservice.domain.address.Address;
-import ua.com.rd.pizzaservice.domain.customer.Customer;
-import ua.com.rd.pizzaservice.domain.order.Order;
-import ua.com.rd.pizzaservice.domain.pizza.Pizza;
-
-import java.util.ArrayList;
-import java.util.List;
+import ua.com.rd.pizzaservice.repository.order.inmem.InMemOrderRepository;
 
 import static org.junit.Assert.assertEquals;
 

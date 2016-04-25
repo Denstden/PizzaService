@@ -1,14 +1,19 @@
 package ua.com.rd.pizzaservice.repository.customer.db;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.repository.customer.CustomerRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.PersistenceUnit;
 import java.util.List;
 
 @Repository
 public class PostgreSQLCustomerRepository implements CustomerRepository {
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
     public PostgreSQLCustomerRepository() {

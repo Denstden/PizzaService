@@ -22,7 +22,7 @@ public class Order {
     @Column(name = "ORDER_ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     private Customer customer;
 
     @Column(name = "FINAL_PRICE")
@@ -39,7 +39,7 @@ public class Order {
     @Column(name = "DONE_DATE")
     private Date doneDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     private Address address;
 
     @ElementCollection
@@ -117,6 +117,14 @@ public class Order {
 
     public void setDoneDate(Date doneDate) {
         this.doneDate = doneDate;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public void progress() throws IncorrectStateException {

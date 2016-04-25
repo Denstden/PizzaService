@@ -1,19 +1,6 @@
 package ua.com.rd.pizzaservice.service.discount;
 
-import org.junit.Before;
-import org.junit.Test;
-import ua.com.rd.pizzaservice.domain.address.Address;
-import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
-import ua.com.rd.pizzaservice.domain.customer.Customer;
-import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
-import ua.com.rd.pizzaservice.domain.order.Order;
-import ua.com.rd.pizzaservice.domain.pizza.Pizza;
-import ua.com.rd.pizzaservice.repository.card.InMemAccumulativeCardRepository;
-import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 import ua.com.rd.pizzaservice.service.card.AccumulativeCardServiceImpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 

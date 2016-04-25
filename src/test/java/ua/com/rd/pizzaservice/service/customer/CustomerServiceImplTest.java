@@ -1,7 +1,7 @@
 package ua.com.rd.pizzaservice.service.customer;
 
 import org.junit.Before;
-import ua.com.rd.pizzaservice.repository.card.InMemAccumulativeCardRepository;
+import ua.com.rd.pizzaservice.repository.card.inmem.InMemAccumulativeCardRepository;
 import ua.com.rd.pizzaservice.repository.customer.inmem.InMemCustomerRepository;
 import ua.com.rd.pizzaservice.service.card.AccumulativeCardServiceImpl;
 

@@ -14,9 +14,9 @@ public class AccumulativeCard {
     private Long id;
 
     @Column(name ="CASH")
-    private Double cash;
+    private Double cash = 0.;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
     public AccumulativeCard() {
@@ -24,11 +24,22 @@ public class AccumulativeCard {
 
     public AccumulativeCard(Customer customer) {
         this.customer = customer;
-        cash = 0.;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Double getCash() {
         return cash;
+    }
+
+    public void setCash(Double cash) {
+        this.cash = cash;
     }
 
     public void addCash(Double cash) {

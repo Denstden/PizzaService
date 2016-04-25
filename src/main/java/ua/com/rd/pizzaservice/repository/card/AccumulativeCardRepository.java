@@ -9,5 +9,8 @@ import java.util.Set;
 public interface AccumulativeCardRepository {
     AccumulativeCard addCard(Customer customer);
     Set<AccumulativeCard> getCards();
-    AccumulativeCard deleteCard(Customer customer) throws NoAccumulativeCardException;
+    void updateCard(AccumulativeCard card);
+    AccumulativeCard getCardById(Long id);
+    AccumulativeCard deleteCard(Customer customer);
+    AccumulativeCard findCardByCustomer(Customer customer) throws NoAccumulativeCardException;
 }

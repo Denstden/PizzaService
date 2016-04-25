@@ -20,7 +20,7 @@ public class Customer {
     @Column(name = "CUSTOMER_NAME")
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Set<Address> addresses = new HashSet<>();
 
     @OneToMany(mappedBy = "customer")

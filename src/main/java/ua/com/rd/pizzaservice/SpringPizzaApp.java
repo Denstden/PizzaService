@@ -3,24 +3,16 @@ package ua.com.rd.pizzaservice;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
-import ua.com.rd.pizzaservice.domain.order.Order;
-import ua.com.rd.pizzaservice.domain.pizza.Pizza;
-import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
-import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 import ua.com.rd.pizzaservice.service.customer.CustomerService;
-import ua.com.rd.pizzaservice.service.discount.DiscountService;
 import ua.com.rd.pizzaservice.service.order.InvalidPizzasCountException;
-import ua.com.rd.pizzaservice.service.order.OrderService;
-
 import java.util.Arrays;
 
 public class SpringPizzaApp {
     public static void main(String[] args) throws InvalidPizzasCountException, NoAccumulativeCardException {
         ConfigurableApplicationContext repositoryContext =
                 new ClassPathXmlApplicationContext("repositoryContext.xml", "dbRepositoryContext.xml");
-        repositoryContext.getEnvironment().setActiveProfiles("db");
-        repositoryContext.refresh();
-        //PizzaRepository repository = repositoryContext.getBean("postgreSQLPizzaRepository", PizzaRepository.class);
+
+//        PizzaRepository repository = repositoryContext.getBean("postgreSQLPizzaRepository", PizzaRepository.class);
         //repository.addPizza(new Pizza("Name", 150., Pizza.PizzaType.MEAT));
         //System.out.println(repository.getPizzaByID(1L));
         /*ConfigurableApplicationContext context =
@@ -50,6 +42,21 @@ public class SpringPizzaApp {
         System.out.println("Cash on card: " + cardService.findCard(order.getCustomer()).getCash());
 
         context.close();*/
+        /*CustomerRepository customerRepository = repositoryContext.getBean("postgreSQLCustomerRepository", CustomerRepository.class);
+        List<Customer> customerList = customerRepository.findAll();
+        for (Customer customer:customerList){
+            System.out.println(customer.getAddresses());
+        }*/
+        repositoryContext.getEnvironment().setActiveProfiles("db");
+        repositoryContext.refresh();
+        ConfigurableApplicationContext context =
+                new ClassPathXmlApplicationContext(new String[]{"appContext.xml"},
+                        repositoryContext);
+        CustomerService customerService = context.getBean("customerServiceImpl", CustomerService.class);
+        System.out.println(customerService.findAll());
+
+        context.close();
         repositoryContext.close();
+
     }
 }

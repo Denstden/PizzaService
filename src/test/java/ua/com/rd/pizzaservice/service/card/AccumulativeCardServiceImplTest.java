@@ -10,7 +10,7 @@ import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.repository.card.AccumulativeCardRepository;
-import ua.com.rd.pizzaservice.repository.card.InMemAccumulativeCardRepository;
+import ua.com.rd.pizzaservice.repository.card.inmem.InMemAccumulativeCardRepository;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;

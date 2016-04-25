@@ -9,9 +9,9 @@
        http://www.springframework.org/schema/context/spring-context.xsd"
        profile="inMem">
 
-       <context:component-scan base-package="ua.com.rd.pizzaservice.repository.card"/>
-       <context:component-scan base-package="ua.com.rd.pizzaservice.repository.customer"/>
-       <context:component-scan base-package="ua.com.rd.pizzaservice.repository.order"/>
+       <context:component-scan base-package="ua.com.rd.pizzaservice.repository.card.inmem"/>
+       <context:component-scan base-package="ua.com.rd.pizzaservice.repository.customer.inmem"/>
+       <context:component-scan base-package="ua.com.rd.pizzaservice.repository.order.inmem"/>
        <context:component-scan base-package="ua.com.rd.pizzaservice.repository.pizza.inmem"/>
 
        <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

@@ -3,6 +3,7 @@ package ua.com.rd.pizzaservice.service.order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
@@ -12,6 +13,7 @@ import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 import java.util.*;
 
 @Service
+@Transactional
 public class SimpleOrderService implements OrderService {
     private static final Integer MAX_COUNT_OF_PIZZAS_IN_ORDER = 10;
     @Autowired
