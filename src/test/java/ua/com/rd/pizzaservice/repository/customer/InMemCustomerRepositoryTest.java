@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
+import ua.com.rd.pizzaservice.repository.customer.inmem.InMemCustomerRepository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

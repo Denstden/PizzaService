@@ -30,12 +30,6 @@ public class Address {
     @Column(name = "BUILDING")
     private String building;
 
-    @ManyToMany
-    private Set<Customer> customer = new HashSet<>();
-
-    @OneToMany(mappedBy = "address")
-    private Set<Order> order = new HashSet<>();
-
     public Address(){
     }
 

@@ -44,7 +44,8 @@ public class Order {
 
     @ElementCollection
     @CollectionTable(name="ORDERS_PIZZAS")
-    @MapKeyJoinColumn(name = "COUNT_PIZZAS")
+    @MapKeyJoinColumn(name = "PIZZA_ID")
+    @Column(name = "COUNT")
     private Map<Pizza, Integer> pizzas = new HashMap<>();
 
     private static State newState = new NewState();

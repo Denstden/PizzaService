@@ -1,15 +1,16 @@
-package ua.com.rd.pizzaservice.repository.customer;
+package ua.com.rd.pizzaservice.repository.customer.inmem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
+import ua.com.rd.pizzaservice.repository.customer.CustomerRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class InMemCustomerRepository implements CustomerRepository{
+public class InMemCustomerRepository implements CustomerRepository {
     @Autowired
     private List<Customer> customers;
 
@@ -26,6 +27,11 @@ public class InMemCustomerRepository implements CustomerRepository{
     }
 
     @Override
+    public void saveCustomer(Customer customer) {
+        customers.add(customer);
+    }
+
+    @Override
     public Customer getCustomerById(Long id){
         for (Customer customer : customers) {
             if (customer.getId().equals(id)) {
@@ -33,6 +39,18 @@ public class InMemCustomerRepository implements CustomerRepository{
             }
         }
         return null;
+    }
+
+    @Override
+    public void updateCustomer(Customer customer) {
+        Customer customer1 = getCustomerById(customer.getId());
+        customer1.setName(customer.getName());
+        customer1.setAddresses(customer.getAddresses());
+    }
+
+    @Override
+    public void deleteCustomer(Customer customer) {
+        customers.remove(customer);
     }
 
     @Override

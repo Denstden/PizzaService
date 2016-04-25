@@ -80,7 +80,7 @@ public class Pizza {
         return "Pizza{" +
                 "id=" + id +
                 ", name='" + name +
-                ", price=" + price +
+                "', price=" + price +
                 ", type=" + type +
                 '}';
     }

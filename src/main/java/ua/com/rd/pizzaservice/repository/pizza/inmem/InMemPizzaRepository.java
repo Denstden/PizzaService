@@ -43,4 +43,9 @@ public class InMemPizzaRepository implements PizzaRepository {
     public void delete(Pizza pizza) {
         pizzaList.remove(pizza);
     }
+
+    @Override
+    public List<Pizza> findAll() {
+        return pizzaList;
+    }
 }

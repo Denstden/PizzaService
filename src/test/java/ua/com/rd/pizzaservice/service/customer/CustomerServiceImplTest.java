@@ -1,23 +1,11 @@
 package ua.com.rd.pizzaservice.service.customer;
 
 import org.junit.Before;
-import org.junit.Test;
-import ua.com.rd.pizzaservice.domain.address.Address;
-import ua.com.rd.pizzaservice.domain.customer.Customer;
-import ua.com.rd.pizzaservice.domain.order.Order;
-import ua.com.rd.pizzaservice.domain.order.state.DoneState;
-import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.repository.card.InMemAccumulativeCardRepository;
-import ua.com.rd.pizzaservice.repository.customer.CustomerRepository;
-import ua.com.rd.pizzaservice.repository.customer.InMemCustomerRepository;
-import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
+import ua.com.rd.pizzaservice.repository.customer.inmem.InMemCustomerRepository;
 import ua.com.rd.pizzaservice.service.card.AccumulativeCardServiceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class CustomerServiceImplTest {

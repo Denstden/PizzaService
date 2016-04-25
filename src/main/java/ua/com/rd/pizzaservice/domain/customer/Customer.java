@@ -20,14 +20,11 @@ public class Customer {
     @Column(name = "CUSTOMER_NAME")
     private String name;
 
-    @ManyToMany(mappedBy = "customer")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Address> addresses = new HashSet<>();
 
     @OneToMany(mappedBy = "customer")
     private Set<Order> orders = new HashSet<>();
-
-    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
-    private AccumulativeCard accumulativeCard;
 
     public Customer(){
     }
@@ -64,6 +61,14 @@ public class Customer {
 
     public void addAddress(Address address){
         addresses.add(address);
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

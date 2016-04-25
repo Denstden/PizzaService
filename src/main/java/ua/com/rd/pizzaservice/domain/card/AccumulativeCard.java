@@ -19,6 +19,9 @@ public class AccumulativeCard {
     @OneToOne
     private Customer customer;
 
+    public AccumulativeCard() {
+    }
+
     public AccumulativeCard(Customer customer) {
         this.customer = customer;
         cash = 0.;
