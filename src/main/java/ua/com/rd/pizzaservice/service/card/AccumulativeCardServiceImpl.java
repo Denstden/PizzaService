@@ -9,7 +9,6 @@ import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.repository.card.AccumulativeCardRepository;
 
 @Service
-@Transactional
 public class AccumulativeCardServiceImpl implements AccumulativeCardService {
     @Autowired
     private AccumulativeCardRepository accumulativeCardRepository;
@@ -29,11 +28,13 @@ public class AccumulativeCardServiceImpl implements AccumulativeCardService {
     }
 
     @Override
+    @Transactional
     public AccumulativeCard giveCard(Customer customer) {
         return accumulativeCardRepository.addCard(customer);
     }
 
     @Override
+    @Transactional
     public void deleteCard(Customer customer) {
         accumulativeCardRepository.deleteCard(customer);
     }

@@ -82,6 +82,7 @@ public class Order {
     }
 
     private void calculatePrice() {
+        finalPrice = 0d;
         for (Map.Entry<Pizza, Integer> entry: pizzas.entrySet()) {
             finalPrice += entry.getKey().getPrice()*entry.getValue();
         }

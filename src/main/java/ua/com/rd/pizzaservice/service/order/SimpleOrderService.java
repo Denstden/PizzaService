@@ -10,10 +10,11 @@ import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.repository.order.OrderRepository;
 import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @Service
-@Transactional
 public class SimpleOrderService implements OrderService {
     private static final Integer MAX_COUNT_OF_PIZZAS_IN_ORDER = 10;
     @Autowired
@@ -33,6 +34,7 @@ public class SimpleOrderService implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order placeNewOrder(Customer customer, Long... pizzasID)
             throws InvalidPizzasCountException {
         if (pizzasID.length>MAX_COUNT_OF_PIZZAS_IN_ORDER || pizzasID.length<1){
@@ -48,6 +50,7 @@ public class SimpleOrderService implements OrderService {
     }
 
     @Override
+    @Transactional
     public boolean addPizzasToOrder(Order order, Long pizzaID, int count)
             throws InvalidPizzasCountException {
         if (count<1 || order.getPizzasCount()+count>MAX_COUNT_OF_PIZZAS_IN_ORDER){

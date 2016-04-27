@@ -13,7 +13,6 @@ import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 import java.util.List;
 
 @Service
-@Transactional
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
@@ -32,6 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public boolean payForOrder(Order order){
         try {
             order.progress();
