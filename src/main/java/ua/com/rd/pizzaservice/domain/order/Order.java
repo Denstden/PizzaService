@@ -175,4 +175,38 @@ public class Order {
                 ", status=" + currentState +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+        if (id!=null && order.getId()!=null && id.equals(order.getId())){
+            return true;
+        }
+
+        if (!customer.equals(order.customer)) return false;
+        if (!finalPrice.equals(order.finalPrice)) return false;
+        if (!currentState.equals(order.currentState)) return false;
+        if (!creationDate.equals(order.creationDate)) return false;
+        if (!doneDate.equals(order.doneDate)) return false;
+        if (!address.equals(order.address)) return false;
+        return pizzas.equals(order.pizzas);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = customer.hashCode();
+
+        result = 31 * result + id.hashCode();
+        result = 31 * result + finalPrice.hashCode();
+        result = 31 * result + currentState.hashCode();
+        result = 31 * result + creationDate.hashCode();
+        result = 31 * result + doneDate.hashCode();
+        result = 31 * result + address.hashCode();
+        result = 31 * result + pizzas.hashCode();
+        return result;
+    }
 }

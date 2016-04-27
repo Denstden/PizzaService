@@ -81,4 +81,29 @@ public class Customer {
                 + ", address=" + addresses
                 + '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+        if (id!=null && customer.getId()!=null && id.equals(customer.getId())){
+            return true;
+        }
+
+        if (!name.equals(customer.name)) return false;
+        if (!addresses.equals(customer.addresses)) return false;
+        return orders.equals(customer.orders);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + addresses.hashCode();
+        result = 31 * result + orders.hashCode();
+        return result;
+    }
 }

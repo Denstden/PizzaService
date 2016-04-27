@@ -37,6 +37,14 @@ public class Address {
         this.building = building;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getCountry() {
         return country;
     }
@@ -72,5 +80,32 @@ public class Address {
     @Override
     public String toString() {
         return country + ", " + city + ", " + street + ", " + building;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Address address = (Address) o;
+        if (id!=null && address.getId()!=null && id.equals(address.getId())){
+            return true;
+        }
+
+        if (!country.equals(address.country)) return false;
+        if (!city.equals(address.city)) return false;
+        if (!street.equals(address.street)) return false;
+        return building.equals(address.building);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = country.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + city.hashCode();
+        result = 31 * result + street.hashCode();
+        result = 31 * result + building.hashCode();
+        return result;
     }
 }

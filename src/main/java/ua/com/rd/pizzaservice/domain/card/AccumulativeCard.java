@@ -64,4 +64,27 @@ public class AccumulativeCard {
                 + ", customer=" + customer
                 + '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AccumulativeCard card = (AccumulativeCard) o;
+        if (id!=null && card.getId()!=null && id.equals(card.getId())){
+            return true;
+        }
+
+        if (!cash.equals(card.cash)) return false;
+        return customer.equals(card.customer);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = cash.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + customer.hashCode();
+        return result;
+    }
 }

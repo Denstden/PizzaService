@@ -87,4 +87,29 @@ public class Pizza {
                 ", type=" + type +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pizza pizza = (Pizza) o;
+        if (id!=null && pizza.getId()!=null && id.equals(pizza.getId())){
+            return true;
+        }
+
+        if (!name.equals(pizza.name)) return false;
+        if (!price.equals(pizza.price)) return false;
+        return type == pizza.type;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + price.hashCode();
+        result = 31 * result + type.hashCode();
+        return result;
+    }
 }
