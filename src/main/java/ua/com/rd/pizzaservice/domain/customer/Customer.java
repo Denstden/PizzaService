@@ -1,7 +1,6 @@
 package ua.com.rd.pizzaservice.domain.customer;
 
 import ua.com.rd.pizzaservice.domain.address.Address;
-import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
 import ua.com.rd.pizzaservice.domain.order.Order;
 
 import javax.persistence.*;
@@ -25,6 +24,9 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private Set<Order> orders = new HashSet<>();
+
+    @Version
+    private Integer version;
 
     public Customer(){
     }

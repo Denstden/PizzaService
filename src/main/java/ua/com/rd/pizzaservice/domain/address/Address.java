@@ -1,12 +1,6 @@
 package ua.com.rd.pizzaservice.domain.address;
 
-import org.springframework.stereotype.Component;
-import ua.com.rd.pizzaservice.domain.customer.Customer;
-import ua.com.rd.pizzaservice.domain.order.Order;
-
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity
@@ -29,6 +23,9 @@ public class Address {
 
     @Column(name = "BUILDING")
     private String building;
+
+    @Version
+    private Integer version;
 
     public Address(){
     }

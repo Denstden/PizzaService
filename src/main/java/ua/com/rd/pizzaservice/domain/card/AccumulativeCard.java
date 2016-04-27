@@ -19,6 +19,9 @@ public class AccumulativeCard {
     @OneToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
+    @Version
+    private Integer version;
+
     public AccumulativeCard() {
     }
 

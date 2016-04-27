@@ -21,6 +21,9 @@ public class Pizza {
     @Enumerated(EnumType.STRING)
     private PizzaType type;
 
+    @Version
+    private Integer version;
+
     public Pizza(){
     }
 

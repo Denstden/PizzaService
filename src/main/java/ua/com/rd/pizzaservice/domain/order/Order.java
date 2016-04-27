@@ -48,6 +48,9 @@ public class Order {
     @Column(name = "COUNT")
     private Map<Pizza, Integer> pizzas = new HashMap<>();
 
+    @Version
+    private Integer version;
+
     private static State newState = new NewState();
     private static State inProgressState = new InProgressState();
     private static State canceledState = new CanceledState();
