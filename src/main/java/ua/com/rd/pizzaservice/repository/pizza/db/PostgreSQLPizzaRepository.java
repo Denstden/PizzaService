@@ -6,12 +6,11 @@ import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 @Repository
 public class PostgreSQLPizzaRepository implements PizzaRepository {
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager entityManager;
 
     public PostgreSQLPizzaRepository() {

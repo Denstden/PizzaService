@@ -3,9 +3,10 @@ package ua.com.rd.pizzaservice;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
+import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.service.customer.CustomerService;
 import ua.com.rd.pizzaservice.service.order.InvalidPizzasCountException;
-import java.util.Arrays;
+import ua.com.rd.pizzaservice.service.order.OrderService;
 
 public class SpringPizzaApp {
     public static void main(String[] args) throws InvalidPizzasCountException, NoAccumulativeCardException {
@@ -53,7 +54,16 @@ public class SpringPizzaApp {
                 new ClassPathXmlApplicationContext(new String[]{"appContext.xml"},
                         repositoryContext);
         CustomerService customerService = context.getBean("customerServiceImpl", CustomerService.class);
-        System.out.println(customerService.findAll());
+        //System.out.println(customerService.findAll());
+        /*PizzaService pizzaService = context.getBean("pizzaServiceImpl", PizzaService.class);
+        System.out.println(pizzaService.findAll());*/
+       /* AccumulativeCardService cardService = context.getBean(
+                "accumulativeCardServiceImpl", AccumulativeCardService.class);
+        cardService.giveCard(customerService.getCustomerById(19L));//do not work with @Version in Customer*/
+        OrderService orderService = context.getBean("simpleOrderService", OrderService.class);
+        Order order = orderService.placeNewOrder(customerService.getCustomerById(19L), 18L, 18L, 25L);
+        System.out.println(order);
+
 
         context.close();
         repositoryContext.close();

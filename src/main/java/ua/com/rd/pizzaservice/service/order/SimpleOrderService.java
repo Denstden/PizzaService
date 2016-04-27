@@ -8,8 +8,9 @@ import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.repository.order.OrderRepository;
-import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
+import ua.com.rd.pizzaservice.service.pizza.PizzaService;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class SimpleOrderService implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    private PizzaRepository pizzaRepository;
+    private PizzaService pizzaService;
 
     public SimpleOrderService() {
     }
@@ -29,8 +30,8 @@ public class SimpleOrderService implements OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public void setPizzaRepository(PizzaRepository pizzaRepository) {
-        this.pizzaRepository = pizzaRepository;
+    public void setPizzaService(PizzaService pizzaService) {
+        this.pizzaService = pizzaService;
     }
 
     @Override
@@ -44,6 +45,9 @@ public class SimpleOrderService implements OrderService {
         Order newOrder = createOrder();
         newOrder.setCustomer(customer);
         newOrder.setPizzas(pizzas);
+        newOrder.setAddress(customer.getAddresses().iterator().next());
+        newOrder.setCreationDate(new Date());
+        newOrder.setDoneDate(new Date());
 
         orderRepository.saveOrder(newOrder);  // set Order Id and save Order to in-memory list
         return newOrder;
@@ -73,7 +77,7 @@ public class SimpleOrderService implements OrderService {
         Map<Pizza, Integer> pizzas = new HashMap<>();
         Pizza pizza;
         for(Long id : pizzasID){
-            pizza = pizzaRepository.getPizzaByID(id);
+            pizza = pizzaService.getPizzaById(id);
             if (pizzas.containsKey(pizza)){
                 pizzas.replace(pizza, pizzas.get(pizza)+1);
             }

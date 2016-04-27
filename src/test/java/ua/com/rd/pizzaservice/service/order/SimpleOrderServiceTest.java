@@ -1,21 +1,9 @@
 package ua.com.rd.pizzaservice.service.order;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ua.com.rd.pizzaservice.domain.address.Address;
-import ua.com.rd.pizzaservice.domain.customer.Customer;
-import ua.com.rd.pizzaservice.domain.pizza.Pizza;
-import ua.com.rd.pizzaservice.repository.order.inmem.InMemOrderRepository;
-import ua.com.rd.pizzaservice.repository.pizza.inmem.InMemPizzaRepository;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy({
@@ -23,7 +11,7 @@ import static org.junit.Assert.assertEquals;
         @ContextConfiguration("classpath:appContext.xml")
 })
 public class SimpleOrderServiceTest {
-    private InMemPizzaRepository pizzaRepository;
+   /* private InMemPizzaRepository pizzaRepository;
     private InMemOrderRepository orderRepository;
     @Autowired
     private SimpleOrderService service;
@@ -41,7 +29,7 @@ public class SimpleOrderServiceTest {
         pizzaRepository.addPizza((Pizza) context.getBean("pizza4"));
         context.close();
         service.setOrderRepository(orderRepository);
-        service.setPizzaRepository(pizzaRepository);
+        service.setPizzaService(pizzaRepository);
         customer = new Customer(1l,"name",new Address("C","c","s","b"));
     }
 
@@ -62,7 +50,7 @@ public class SimpleOrderServiceTest {
         service.placeNewOrder(customer, 1l, 1l, 1l);
         ++count;
         assertEquals(count, orderRepository.getOrders().size());
-    }
+    }*/
 
    /* @Test(expected = InvalidPizzasCountException.class)
     public void addZeroPizzasToOrderShouldRiseException() throws InvalidPizzasCountException {

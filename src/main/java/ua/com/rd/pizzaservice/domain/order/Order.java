@@ -182,31 +182,24 @@ public class Order {
         if (o == null || getClass() != o.getClass()) return false;
 
         Order order = (Order) o;
-        if (id!=null && order.getId()!=null && id.equals(order.getId())){
-            return true;
-        }
-
-        if (!customer.equals(order.customer)) return false;
-        if (!finalPrice.equals(order.finalPrice)) return false;
-        if (!currentState.equals(order.currentState)) return false;
-        if (!creationDate.equals(order.creationDate)) return false;
-        if (!doneDate.equals(order.doneDate)) return false;
-        if (!address.equals(order.address)) return false;
-        return pizzas.equals(order.pizzas);
+        return id != null && order.getId() != null &&
+                id.equals(order.getId()) ||
+                finalPrice.equals(order.finalPrice) &&
+                        currentState.equals(order.currentState) &&
+                        creationDate.equals(order.creationDate) &&
+                        (doneDate.equals(order.doneDate));
 
     }
 
     @Override
     public int hashCode() {
-        int result = customer.hashCode();
+        int result = 0;
 
         result = 31 * result + id.hashCode();
         result = 31 * result + finalPrice.hashCode();
         result = 31 * result + currentState.hashCode();
         result = 31 * result + creationDate.hashCode();
         result = 31 * result + doneDate.hashCode();
-        result = 31 * result + address.hashCode();
-        result = 31 * result + pizzas.hashCode();
         return result;
     }
 }

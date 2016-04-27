@@ -1,19 +1,17 @@
 package ua.com.rd.pizzaservice.repository.customer.db;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.repository.customer.CustomerRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
 public class PostgreSQLCustomerRepository implements CustomerRepository {
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager entityManager;
 
     public PostgreSQLCustomerRepository() {
@@ -38,7 +36,14 @@ public class PostgreSQLCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer getCustomerById(Long id) {
-        return entityManager.find(Customer.class, id);
+        TypedQuery<Customer> query = entityManager.createQuery(
+                "SELECT c FROM Customer c JOIN FETCH c.addresses WHERE c.id= :id", Customer.class);
+        query.setParameter("id", id);
+        List<Customer> customers = query.getResultList();
+        if (customers.size()==0){
+            return null;
+        }
+        return customers.get(0);
     }
 
     @Override
@@ -55,6 +60,7 @@ public class PostgreSQLCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return entityManager.createQuery("SELECT c FROM Customer c", Customer.class).getResultList();
+        return entityManager.createQuery(
+                "SELECT c FROM Customer c JOIN FETCH c.addresses", Customer.class).getResultList();
     }
 }

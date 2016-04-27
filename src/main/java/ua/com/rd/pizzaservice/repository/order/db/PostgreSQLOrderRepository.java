@@ -1,19 +1,20 @@
 package ua.com.rd.pizzaservice.repository.order.db;
 
 import org.springframework.stereotype.Repository;
+import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.repository.order.OrderRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Repository
 public class PostgreSQLOrderRepository implements OrderRepository {
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager entityManager;
 
     public PostgreSQLOrderRepository() {
@@ -33,13 +34,22 @@ public class PostgreSQLOrderRepository implements OrderRepository {
 
     @Override
     public Long saveOrder(Order order) {
+        Customer customer = entityManager.merge(order.getCustomer());
+        order.setCustomer(customer);
         entityManager.persist(order);
         return order.getId();
     }
 
     @Override
     public Order getOrderById(Long id) {
-        return entityManager.find(Order.class, id);
+        TypedQuery<Order> query = entityManager.createQuery(
+                "SELECT o FROM Order o JOIN FETCH o.customer, o.address WHERE o.id= :id", Order.class);
+        query.setParameter("id", id);
+        List<Order> orders = query.getResultList();
+        if (orders.size()==0){
+            return null;
+        }
+        return orders.get(0);
     }
 
     @Override
@@ -60,7 +70,7 @@ public class PostgreSQLOrderRepository implements OrderRepository {
 
     @Override
     public List<Order> getAllOrders() {
-        return entityManager.createQuery("SELECT o FROM Order o", Order.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM Order o JOIN FETCH o.customer, o.address", Order.class).getResultList();
     }
 
     @Override

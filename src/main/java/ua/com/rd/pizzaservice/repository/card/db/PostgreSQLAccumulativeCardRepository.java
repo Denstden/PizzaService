@@ -8,14 +8,14 @@ import ua.com.rd.pizzaservice.repository.card.AccumulativeCardRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Repository
 public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRepository{
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager entityManager;
 
     public PostgreSQLAccumulativeCardRepository() {
@@ -42,7 +42,9 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
 
     @Override
     public Set<AccumulativeCard> getCards() {
-        return new HashSet<>(entityManager.createQuery("SELECT c FROM AccumulativeCard c", AccumulativeCard.class).getResultList());
+        return new HashSet<>(entityManager.createQuery(
+                "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer",
+                AccumulativeCard.class).getResultList());
     }
 
     @Override
@@ -54,7 +56,10 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
 
     @Override
     public AccumulativeCard getCardById(Long id) {
-        return entityManager.find(AccumulativeCard.class, id);
+        TypedQuery<AccumulativeCard> query = entityManager.createQuery(
+                "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer WHERE c.id= :id", AccumulativeCard.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 
     @Override
@@ -70,8 +75,10 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
 
     @Override
     public AccumulativeCard findCardByCustomer(Customer customer) throws NoAccumulativeCardException {
-        List<AccumulativeCard> cards = entityManager.createQuery("SELECT c FROM AccumulativeCard c WHERE c.customer=?1", AccumulativeCard.class)
-                .setParameter(1, customer.getId()).getResultList();
+        TypedQuery<AccumulativeCard> query = entityManager.createQuery(
+                "SELECT c FROM AccumulativeCard c WHERE c.customer=?1", AccumulativeCard.class);
+        query.setParameter(1, customer.getId());
+        List<AccumulativeCard> cards = query.getResultList();
         if (cards.size()==0){
             throw  new NoAccumulativeCardException();
         }

@@ -25,9 +25,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private Set<Order> orders = new HashSet<>();
 
-    @Version
-    private Integer version;
-
     public Customer(){
     }
 
@@ -75,11 +72,11 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{"
-                + "id=" + id
-                + ", name='" + name
-                + ", address=" + addresses
-                + '}';
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", addresses=" + addresses +
+                '}';
     }
 
     @Override
@@ -88,22 +85,15 @@ public class Customer {
         if (o == null || getClass() != o.getClass()) return false;
 
         Customer customer = (Customer) o;
-        if (id!=null && customer.getId()!=null && id.equals(customer.getId())){
-            return true;
-        }
-
-        if (!name.equals(customer.name)) return false;
-        if (!addresses.equals(customer.addresses)) return false;
-        return orders.equals(customer.orders);
-
+        return id != null && customer.getId() != null &&
+                id.equals(customer.getId()) ||
+                (name.equals(customer.name));
     }
 
     @Override
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + id.hashCode();
-        result = 31 * result + addresses.hashCode();
-        result = 31 * result + orders.hashCode();
         return result;
     }
 }
