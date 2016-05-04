@@ -25,6 +25,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private Set<Order> orders = new HashSet<>();
 
+    @Version
+    private Integer version;
+
     public Customer(){
     }
 

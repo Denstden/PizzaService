@@ -13,8 +13,9 @@
     <context:component-scan base-package="ua.com.rd.pizzaservice.repository.customer.db"/>
     <context:component-scan base-package="ua.com.rd.pizzaservice.repository.order.db"/>
     <context:component-scan base-package="ua.com.rd.pizzaservice.repository.pizza.db"/>
+    <context:property-placeholder system-properties-mode="OVERRIDE" location="classpath:jdbc.properties"/>
 
-    <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="packagesToScan" value="ua.com.rd.pizzaservice.domain" />
         <property name="jpaVendorAdapter">
@@ -30,10 +31,11 @@
         </property>
     </bean>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/pizza_service_auto" />
-        <property name="username" value="postgres" />
-        <property name="password" value="admin" />
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${driver}" />
+        <property name="url" value="${url}" />
+        <property name="username" value="${user}" />
+        <property name="password" value="${password}" />
+        <property name="initialSize" value="5"/>
     </bean>
 </beans>

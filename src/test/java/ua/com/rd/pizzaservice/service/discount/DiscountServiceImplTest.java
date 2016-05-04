@@ -59,7 +59,7 @@ public class DiscountServiceImplTest {
     @Test
     public void calculateDiscountsWithAccCardFivePizzas() throws NoAccumulativeCardException {
         Customer customer = new Customer(1l,"name", new Address("C","c","st","b"));
-        accumulativeCardService.giveCard(customer);
+        accumulativeCardService.createCard(customer);
         accumulativeCardService.findCard(customer).addCash(1000d);
         List<Pizza> pizzas = new ArrayList<Pizza>(){{
             add(new Pizza(1l, "Margarita", 180., Pizza.PizzaType.MEAT));

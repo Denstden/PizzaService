@@ -2,16 +2,17 @@ package ua.com.rd.pizzaservice;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
+import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
-import ua.com.rd.pizzaservice.domain.order.Order;
+import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 import ua.com.rd.pizzaservice.service.customer.CustomerService;
 import ua.com.rd.pizzaservice.service.order.InvalidPizzasCountException;
-import ua.com.rd.pizzaservice.service.order.OrderService;
 
 public class SpringPizzaApp {
     public static void main(String[] args) throws InvalidPizzasCountException, NoAccumulativeCardException {
         ConfigurableApplicationContext repositoryContext =
-                new ClassPathXmlApplicationContext("repositoryContext.xml", "dbRepositoryContext.xml");
+                new ClassPathXmlApplicationContext("inMemRepositoryContext.xml", "dbRepositoryContext.xml");
 
 //        PizzaRepository repository = repositoryContext.getBean("postgreSQLPizzaRepository", PizzaRepository.class);
         //repository.addPizza(new Pizza("Name", 150., Pizza.PizzaType.MEAT));
@@ -30,7 +31,7 @@ public class SpringPizzaApp {
         orderService.addPizzasToOrder(order, 2L, 6);//total price = 180+720=900
         orderService.addPizzasToOrder(order, 3L, 3);//total price = 900+390=1290
         System.out.println("Discounts for order: " + discountService.calculateDiscounts(order));
-        cardService.giveCard(customerService.getCustomerById(1L));
+        cardService.createCard(customerService.getCustomerById(1L));
         customerService.payForOrder(order);
         System.out.println("Cash on card: " + cardService.findCard(order.getCustomer()).getCash());
         System.out.println();
@@ -57,12 +58,19 @@ public class SpringPizzaApp {
         //System.out.println(customerService.findAll());
         /*PizzaService pizzaService = context.getBean("pizzaServiceImpl", PizzaService.class);
         System.out.println(pizzaService.findAll());*/
-       /* AccumulativeCardService cardService = context.getBean(
+        AccumulativeCardService cardService = context.getBean(
                 "accumulativeCardServiceImpl", AccumulativeCardService.class);
-        cardService.giveCard(customerService.getCustomerById(19L));//do not work with @Version in Customer*/
-        OrderService orderService = context.getBean("simpleOrderService", OrderService.class);
+        //AccumulativeCard card = new AccumulativeCard(customerService.getCustomerById(19L));
+        //cardService.createCard(card);
+        //card = cardService.findCard(customerService.getCustomerById(19L));
+        //cardService.deleteCard(card);
+        Customer customer = customerService.getCustomerById(19L);
+        AccumulativeCard card = cardService.findCard(customer);
+        System.out.println(cardService.deleteCard(card));
+        //cardService.createCard(card);//do not work with @Version in Customer
+       /* OrderService orderService = context.getBean("simpleOrderService", OrderService.class);
         Order order = orderService.placeNewOrder(customerService.getCustomerById(19L), 18L, 18L, 25L);
-        System.out.println(order);
+        System.out.println(order);*/
 
 
         context.close();

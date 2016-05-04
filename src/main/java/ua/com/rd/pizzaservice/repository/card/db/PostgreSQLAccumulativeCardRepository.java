@@ -34,8 +34,12 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
     }
 
     @Override
-    public AccumulativeCard addCard(Customer customer) {
-        AccumulativeCard card = new AccumulativeCard(customer);
+    public AccumulativeCard addCard(AccumulativeCard card) {
+        /*Customer customer1 = entityManager.getReference(Customer.class, customer.getId());
+        AccumulativeCard card = new AccumulativeCard();
+        card.setCustomer(customer1);*/
+        Customer attachedCustomer = entityManager.getReference(Customer.class, card.getCustomer().getId());
+        card.setCustomer(attachedCustomer);
         entityManager.persist(card);
         return card;
     }
@@ -43,7 +47,7 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
     @Override
     public Set<AccumulativeCard> getCards() {
         return new HashSet<>(entityManager.createQuery(
-                "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer",
+                "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer cc JOIN FETCH cc.addresses",
                 AccumulativeCard.class).getResultList());
     }
 
@@ -57,27 +61,28 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
     @Override
     public AccumulativeCard getCardById(Long id) {
         TypedQuery<AccumulativeCard> query = entityManager.createQuery(
-                "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer WHERE c.id= :id", AccumulativeCard.class);
+                "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer cc" +
+                        " JOIN FETCH cc.addresses WHERE c.id= :id", AccumulativeCard.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }
 
     @Override
-    public AccumulativeCard deleteCard(Customer customer) {
-        try {
-            AccumulativeCard card = findCardByCustomer(customer);
-            entityManager.remove(card);
-            return card;
-        } catch (NoAccumulativeCardException e) {
-            return null;
-        }
+    public AccumulativeCard deleteCard(AccumulativeCard card) {
+        //entityManager.createQuery("DELETE FROM AccumulativeCard c WHERE c.id= "+ card.getId()).executeUpdate();
+        AccumulativeCard managedCard = entityManager.find(AccumulativeCard.class, card.getId());
+        System.out.println(managedCard.getId());
+        entityManager.remove(managedCard);
+//        entityManager.flush();
+        return card;
     }
 
     @Override
-    public AccumulativeCard findCardByCustomer(Customer customer) throws NoAccumulativeCardException {
+    public AccumulativeCard getCardByCustomer(Customer customer) throws NoAccumulativeCardException {
+        Customer attachedCustomer = entityManager.getReference(Customer.class, customer.getId());
         TypedQuery<AccumulativeCard> query = entityManager.createQuery(
-                "SELECT c FROM AccumulativeCard c WHERE c.customer=?1", AccumulativeCard.class);
-        query.setParameter(1, customer.getId());
+                "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer cc JOIN FETCH cc.addresses WHERE c.customer= :customer", AccumulativeCard.class);
+        query.setParameter("customer", attachedCustomer);
         List<AccumulativeCard> cards = query.getResultList();
         if (cards.size()==0){
             throw  new NoAccumulativeCardException();

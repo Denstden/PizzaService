@@ -15,8 +15,7 @@ public class InMemAccumulativeCardRepository
     private Set<AccumulativeCard> cards = new HashSet<>();
 
     @Override
-    public AccumulativeCard addCard(Customer customer) {
-        AccumulativeCard card = new AccumulativeCard(customer);
+    public AccumulativeCard addCard(AccumulativeCard card) {
         cards.add(card);
         return card;
     }
@@ -47,20 +46,15 @@ public class InMemAccumulativeCardRepository
     }
 
     @Override
-    public AccumulativeCard deleteCard(Customer customer) {
-        try {
-            AccumulativeCard card = findCardByCustomer(customer);
-            cards.remove(card);
-            return card;
-        } catch (NoAccumulativeCardException e) {
-            return null;
-        }
+    public AccumulativeCard deleteCard(AccumulativeCard card) {
+        cards.remove(card);
+        return card;
     }
 
     @Override
-    public AccumulativeCard findCardByCustomer(Customer customer) throws NoAccumulativeCardException {
+    public AccumulativeCard getCardByCustomer(Customer customer) throws NoAccumulativeCardException {
         for (AccumulativeCard card: cards){
-            if (card.getCustomer().getId().equals(customer.getId())){
+            if (card.getCustomer().equals(customer)){
                 return card;
             }
         }

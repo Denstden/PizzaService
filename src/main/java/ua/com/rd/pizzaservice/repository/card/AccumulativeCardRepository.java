@@ -7,10 +7,10 @@ import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import java.util.Set;
 
 public interface AccumulativeCardRepository {
-    AccumulativeCard addCard(Customer customer);
+    AccumulativeCard addCard(AccumulativeCard card);
     Set<AccumulativeCard> getCards();
     void updateCard(AccumulativeCard card);
     AccumulativeCard getCardById(Long id);
-    AccumulativeCard deleteCard(Customer customer);
-    AccumulativeCard findCardByCustomer(Customer customer) throws NoAccumulativeCardException;
+    AccumulativeCard deleteCard(AccumulativeCard card);
+    AccumulativeCard getCardByCustomer(Customer customer) throws NoAccumulativeCardException;
 }

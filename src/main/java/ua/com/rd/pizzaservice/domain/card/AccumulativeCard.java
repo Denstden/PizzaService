@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Table(name = "ACCUMULATIVE_CARDS")
 public class AccumulativeCard {
     @Id
-    @SequenceGenerator(name="ACCUMULATIVE_CARD_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ACCUMULATIVE_CARD_SEQ")
+    //@SequenceGenerator(name="ACCUMULATIVE_CARD_SEQ", initialValue=1, allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.IDENTITY/*, generator="ACCUMULATIVE_CARD_SEQ"*/)
     @Column(name ="ACCUMULATIVE_CARD_ID")
     private Long id;
 

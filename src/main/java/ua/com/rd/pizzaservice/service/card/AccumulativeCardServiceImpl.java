@@ -8,6 +8,8 @@ import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.repository.card.AccumulativeCardRepository;
 
+import java.util.Set;
+
 @Service
 public class AccumulativeCardServiceImpl implements AccumulativeCardService {
     @Autowired
@@ -21,21 +23,25 @@ public class AccumulativeCardServiceImpl implements AccumulativeCardService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public AccumulativeCard findCard(Customer customer)
             throws NoAccumulativeCardException {
-        return accumulativeCardRepository.findCardByCustomer(customer);
+        return accumulativeCardRepository.getCardByCustomer(customer);
     }
 
     @Override
     @Transactional
-    public AccumulativeCard giveCard(Customer customer) {
-        return accumulativeCardRepository.addCard(customer);
+    public AccumulativeCard createCard(AccumulativeCard card) {
+        return accumulativeCardRepository.addCard(card);
     }
 
     @Override
     @Transactional
-    public void deleteCard(Customer customer) {
-        accumulativeCardRepository.deleteCard(customer);
+    public AccumulativeCard deleteCard(AccumulativeCard card) {
+        return accumulativeCardRepository.deleteCard(card);
+    }
+
+    @Override
+    public Set<AccumulativeCard> findAll() {
+        return accumulativeCardRepository.getCards();
     }
 }

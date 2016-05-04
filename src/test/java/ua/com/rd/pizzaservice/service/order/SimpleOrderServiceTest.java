@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy({
-        @ContextConfiguration("classpath:repositoryContext.xml"),
+        @ContextConfiguration("classpath:inMemRepositoryContext.xml"),
         @ContextConfiguration("classpath:appContext.xml")
 })
 public class SimpleOrderServiceTest {
@@ -22,7 +22,7 @@ public class SimpleOrderServiceTest {
         service = new SimpleOrderService();
         orderRepository = new InMemOrderRepository();
         pizzaRepository = new InMemPizzaRepository();
-        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("repositoryContext.xml");
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("inMemRepositoryContext.xml");
         pizzaRepository.addPizza((Pizza) context.getBean("pizza1"));
         pizzaRepository.addPizza((Pizza) context.getBean("pizza2"));
         pizzaRepository.addPizza((Pizza) context.getBean("pizza3"));
