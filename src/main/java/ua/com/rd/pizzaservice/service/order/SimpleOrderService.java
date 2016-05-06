@@ -4,18 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
+import ua.com.rd.pizzaservice.exception.InvalidPizzasCountException;
 import ua.com.rd.pizzaservice.repository.order.OrderRepository;
 import ua.com.rd.pizzaservice.service.pizza.PizzaService;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Service
+@Transactional
 public class SimpleOrderService implements OrderService {
     private static final Integer MAX_COUNT_OF_PIZZAS_IN_ORDER = 10;
     @Autowired
@@ -35,8 +35,13 @@ public class SimpleOrderService implements OrderService {
     }
 
     @Override
-    @Transactional
-    public Order placeNewOrder(Customer customer, Long... pizzasID)
+    @Transactional(readOnly = true)
+    public Order getOrderById(Long id) {
+        return orderRepository.getOrderById(id);
+    }
+
+    @Override
+    public Order placeNewOrder(Customer customer, Address address, Long... pizzasID)
             throws InvalidPizzasCountException {
         if (pizzasID.length>MAX_COUNT_OF_PIZZAS_IN_ORDER || pizzasID.length<1){
             throw new InvalidPizzasCountException();
@@ -45,7 +50,7 @@ public class SimpleOrderService implements OrderService {
         Order newOrder = createOrder();
         newOrder.setCustomer(customer);
         newOrder.setPizzas(pizzas);
-        newOrder.setAddress(customer.getAddresses().iterator().next());
+        newOrder.setAddress(address);
         newOrder.setCreationDate(new Date());
         newOrder.setDoneDate(new Date());
 
@@ -54,23 +59,31 @@ public class SimpleOrderService implements OrderService {
     }
 
     @Override
-    @Transactional
     public boolean addPizzasToOrder(Order order, Long pizzaID, int count)
             throws InvalidPizzasCountException {
         if (count<1 || order.getPizzasCount()+count>MAX_COUNT_OF_PIZZAS_IN_ORDER){
             throw new InvalidPizzasCountException();
         }
-        Iterator<Map.Entry<Pizza, Integer>> iterator = pizzasByArrOfId(pizzaID).entrySet().iterator();
-        if (iterator.hasNext()) {
-            Map.Entry<Pizza, Integer> map =iterator.next();
-            order.addPizza(map.getKey(), map.getValue());
-        }
+
+        order.addPizza(pizzaService.getPizzaById(pizzaID), count);
+        orderRepository.updateOrder(order);
         return true;
+    }
+
+    @Override
+    public void deleteOrder(Order order) {
+        orderRepository.deleteOrder(order);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Set<Order> findAll() {
+        return orderRepository.getAllOrders();
     }
 
     @Lookup
     protected Order createOrder() {
-        return null;
+        return new Order();
     }
 
     private Map<Pizza, Integer> pizzasByArrOfId(Long ... pizzasID) {

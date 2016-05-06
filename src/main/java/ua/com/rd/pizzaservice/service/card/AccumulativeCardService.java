@@ -2,7 +2,7 @@ package ua.com.rd.pizzaservice.service.card;
 
 import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
-import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
+import ua.com.rd.pizzaservice.exception.NoAccumulativeCardException;
 
 import java.util.Set;
 

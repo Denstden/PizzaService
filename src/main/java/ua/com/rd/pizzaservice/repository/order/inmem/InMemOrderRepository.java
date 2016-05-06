@@ -5,7 +5,9 @@ import ua.com.rd.pizzaservice.domain.order.Order;
 import ua.com.rd.pizzaservice.repository.order.OrderRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class InMemOrderRepository implements OrderRepository {
@@ -59,8 +61,8 @@ public class InMemOrderRepository implements OrderRepository {
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        return orders;
+    public Set<Order> getAllOrders() {
+        return new HashSet<>(orders);
     }
 
     @Override

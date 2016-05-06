@@ -3,7 +3,7 @@ package ua.com.rd.pizzaservice.service.discount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
-import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
+import ua.com.rd.pizzaservice.exception.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.domain.discount.*;
 import ua.com.rd.pizzaservice.domain.discount.pizzadiscount.DiscountEachNPizzaKPercents;
 import ua.com.rd.pizzaservice.domain.discount.pizzadiscount.DiscountMostExpensivePizzaMoreThanNKPercents;

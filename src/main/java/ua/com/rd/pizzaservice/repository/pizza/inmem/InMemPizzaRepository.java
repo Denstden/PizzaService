@@ -6,7 +6,9 @@ import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class InMemPizzaRepository implements PizzaRepository {
@@ -18,8 +20,9 @@ public class InMemPizzaRepository implements PizzaRepository {
     }
 
     @Override
-    public void addPizza(Pizza pizza) {
+    public Pizza addPizza(Pizza pizza) {
         pizzaList.add(pizza);
+        return pizza;
     }
 
     @Override
@@ -33,19 +36,13 @@ public class InMemPizzaRepository implements PizzaRepository {
     }
 
     @Override
-    public void update(Pizza pizza) {
-        Pizza pizza1 = getPizzaByID(pizza.getId());
-        pizzaList.remove(pizza1);
-        pizzaList.add(pizza);
-    }
-
-    @Override
-    public void delete(Pizza pizza) {
+    public Pizza delete(Pizza pizza) {
         pizzaList.remove(pizza);
+        return pizza;
     }
 
     @Override
-    public List<Pizza> findAll() {
-        return pizzaList;
+    public Set<Pizza> findAll() {
+        return new HashSet<>(pizzaList);
     }
 }

@@ -1,7 +1,6 @@
 package ua.com.rd.pizzaservice.domain.customer;
 
 import ua.com.rd.pizzaservice.domain.address.Address;
-import ua.com.rd.pizzaservice.domain.order.Order;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,18 +11,15 @@ import java.util.Set;
 public class Customer {
     @Id
     @SequenceGenerator(name="CUSTOMER_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="CUSTOMER_SEQ")
+    @GeneratedValue(strategy= GenerationType.IDENTITY, generator="CUSTOMER_SEQ")
     @Column(name = "CUSTOMER_ID")
     private Long id;
 
     @Column(name = "CUSTOMER_NAME")
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Address> addresses = new HashSet<>();
-
-    @OneToMany(mappedBy = "customer")
-    private Set<Order> orders = new HashSet<>();
 
     @Version
     private Integer version;
@@ -65,14 +61,6 @@ public class Customer {
         addresses.add(address);
     }
 
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
-    }
-
     @Override
     public String toString() {
         return "Customer{" +
@@ -96,7 +84,9 @@ public class Customer {
     @Override
     public int hashCode() {
         int result = name.hashCode();
-        result = 31 * result + id.hashCode();
+        if (id != null) {
+            result = 31 * result + id.hashCode();
+        }
         return result;
     }
 }

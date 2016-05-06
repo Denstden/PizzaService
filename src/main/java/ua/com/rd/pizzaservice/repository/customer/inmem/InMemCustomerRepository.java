@@ -2,12 +2,13 @@ package ua.com.rd.pizzaservice.repository.customer.inmem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.repository.customer.CustomerRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class InMemCustomerRepository implements CustomerRepository {
@@ -27,8 +28,9 @@ public class InMemCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void saveCustomer(Customer customer) {
+    public Customer saveCustomer(Customer customer) {
         customers.add(customer);
+        return customer;
     }
 
     @Override
@@ -49,12 +51,15 @@ public class InMemCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteCustomer(Customer customer) {
-        customers.remove(customer);
+    public Customer deleteCustomer(Customer customer) {
+        if (customers.remove(customer)){
+            return customer;
+        }
+        return null;
     }
 
     @Override
-    public List<Customer> findAll() {
-        return customers;
+    public Set<Customer> findAll() {
+        return new HashSet<>(customers);
     }
 }

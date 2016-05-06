@@ -7,8 +7,8 @@ import javax.persistence.*;
 @Table(name = "ADDRESSES")
 public class Address {
     @Id
-    @SequenceGenerator(name="ADDRESS_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ADDRESS_SEQ")
+    //@SequenceGenerator(name="ADDRESS_SEQ", initialValue=1, allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.IDENTITY/*, generator="ADDRESS_SEQ"*/)
     @Column(name = "ADDRESS_ID")
     private Long id;
 
@@ -102,7 +102,9 @@ public class Address {
     @Override
     public int hashCode() {
         int result = country.hashCode();
-        result = 31 * result + id.hashCode();
+        if (id!=null) {
+            result = 31 * result + id.hashCode();
+        }
         result = 31 * result + city.hashCode();
         result = 31 * result + street.hashCode();
         result = 31 * result + building.hashCode();

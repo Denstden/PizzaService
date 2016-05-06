@@ -1,4 +1,4 @@
-package ua.com.rd.pizzaservice.service.order;
+package ua.com.rd.pizzaservice.exception;
 
 public class InvalidPizzasCountException extends Exception {
     @Override

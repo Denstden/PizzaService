@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Table(name = "ACCUMULATIVE_CARDS")
 public class AccumulativeCard {
     @Id
-    //@SequenceGenerator(name="ACCUMULATIVE_CARD_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.IDENTITY/*, generator="ACCUMULATIVE_CARD_SEQ"*/)
+    @SequenceGenerator(name="ACCUMULATIVE_CARD_SEQ", initialValue=1, allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="ACCUMULATIVE_CARD_SEQ")
     @Column(name ="ACCUMULATIVE_CARD_ID")
     private Long id;
 
@@ -83,7 +83,9 @@ public class AccumulativeCard {
     @Override
     public int hashCode() {
         int result = cash.hashCode();
-        result = 31 * result + id.hashCode();
+        if (id!=null) {
+            result = 31 * result + id.hashCode();
+        }
         result = 31 * result + customer.hashCode();
         return result;
     }

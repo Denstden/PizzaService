@@ -3,7 +3,7 @@ package ua.com.rd.pizzaservice.repository.card.db;
 import org.springframework.stereotype.Repository;
 import ua.com.rd.pizzaservice.domain.card.AccumulativeCard;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
-import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
+import ua.com.rd.pizzaservice.exception.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.repository.card.AccumulativeCardRepository;
 
 import javax.persistence.EntityManager;
@@ -35,11 +35,8 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
 
     @Override
     public AccumulativeCard addCard(AccumulativeCard card) {
-        /*Customer customer1 = entityManager.getReference(Customer.class, customer.getId());
-        AccumulativeCard card = new AccumulativeCard();
-        card.setCustomer(customer1);*/
-        Customer attachedCustomer = entityManager.getReference(Customer.class, card.getCustomer().getId());
-        card.setCustomer(attachedCustomer);
+        Customer managedCustomer = entityManager.getReference(Customer.class, card.getCustomer().getId());
+        card.setCustomer(managedCustomer);
         entityManager.persist(card);
         return card;
     }
@@ -69,11 +66,9 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
 
     @Override
     public AccumulativeCard deleteCard(AccumulativeCard card) {
-        //entityManager.createQuery("DELETE FROM AccumulativeCard c WHERE c.id= "+ card.getId()).executeUpdate();
         AccumulativeCard managedCard = entityManager.find(AccumulativeCard.class, card.getId());
-        System.out.println(managedCard.getId());
         entityManager.remove(managedCard);
-//        entityManager.flush();
+        entityManager.flush();
         return card;
     }
 

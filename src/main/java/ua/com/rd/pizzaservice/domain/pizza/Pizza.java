@@ -6,8 +6,8 @@ import javax.persistence.*;
 @Table(name = "PIZZAS")
 public class Pizza {
     @Id
-    //@SequenceGenerator(name="PIZZA_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy= GenerationType.IDENTITY/*, generator="PIZZA_SEQ"*/)
+    @SequenceGenerator(name="PIZZA_SEQ", initialValue=1, allocationSize=1)
+    @GeneratedValue(strategy= GenerationType.IDENTITY, generator="PIZZA_SEQ")
     @Column(name = "PIZZA_ID")
     private Long id;
 
@@ -100,14 +100,16 @@ public class Pizza {
 
         if (!name.equals(pizza.name)) return false;
         if (!price.equals(pizza.price)) return false;
-        return type == pizza.type;
+        return type.equals(pizza.type);
 
     }
 
     @Override
     public int hashCode() {
         int result = name.hashCode();
-        result = 31 * result + id.hashCode();
+        if (id!=null) {
+            result = 31 * result + id.hashCode();
+        }
         result = 31 * result + price.hashCode();
         result = 31 * result + type.hashCode();
         return result;

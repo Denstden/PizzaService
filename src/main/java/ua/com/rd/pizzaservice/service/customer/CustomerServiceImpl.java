@@ -4,15 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
-import ua.com.rd.pizzaservice.domain.customer.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.domain.order.IncorrectStateException;
 import ua.com.rd.pizzaservice.domain.order.Order;
+import ua.com.rd.pizzaservice.exception.NoAccumulativeCardException;
 import ua.com.rd.pizzaservice.repository.customer.CustomerRepository;
 import ua.com.rd.pizzaservice.service.card.AccumulativeCardService;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
@@ -31,7 +32,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Transactional
     public boolean payForOrder(Order order){
         try {
             order.progress();
@@ -59,8 +59,23 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer saveCustomer(Customer customer) {
+        return customerRepository.saveCustomer(customer);
+    }
+
+    @Override
+    public void updateCustomer(Customer customer) {
+        customerRepository.updateCustomer(customer);
+    }
+
+    @Override
+    public Customer deleteCustomer(Customer customer) {
+        return customerRepository.deleteCustomer(customer);
+    }
+
+    @Override
     @Transactional(readOnly = true)
-    public List<Customer> findAll() {
+    public Set<Customer> findAll() {
         return customerRepository.findAll();
     }
 }

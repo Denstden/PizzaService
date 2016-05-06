@@ -2,10 +2,11 @@ package ua.com.rd.pizzaservice.service.pizza;
 
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
-import java.util.List;
+import java.util.Set;
 
 public interface PizzaService {
-    void savePizza(Pizza pizza);
+    Pizza savePizza(Pizza pizza);
     Pizza getPizzaById(Long id);
-    List<Pizza> findAll();
+    Pizza deletePizza(Pizza pizza);
+    Set<Pizza> findAll();
 }

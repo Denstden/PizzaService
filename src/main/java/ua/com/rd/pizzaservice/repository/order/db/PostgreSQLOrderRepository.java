@@ -1,8 +1,10 @@
 package ua.com.rd.pizzaservice.repository.order.db;
 
 import org.springframework.stereotype.Repository;
+import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.domain.order.Order;
+import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.repository.order.OrderRepository;
 
 import javax.persistence.EntityManager;
@@ -10,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class PostgreSQLOrderRepository implements OrderRepository {
@@ -34,8 +36,15 @@ public class PostgreSQLOrderRepository implements OrderRepository {
 
     @Override
     public Long saveOrder(Order order) {
-        Customer customer = entityManager.merge(order.getCustomer());
-        order.setCustomer(customer);
+        Address managedOrdersAddress = entityManager.merge(order.getAddress());
+        order.setAddress(managedOrdersAddress);
+        Set<Address> managedCustomersAddresses = new HashSet<>();
+        for (Address address: order.getCustomer().getAddresses()){
+            managedCustomersAddresses.add(entityManager.merge(address));
+        }
+        order.getCustomer().setAddresses(managedCustomersAddresses);
+        Customer managedCustomer = entityManager.merge(order.getCustomer());
+        order.setCustomer(managedCustomer);
         entityManager.persist(order);
         return order.getId();
     }
@@ -43,7 +52,7 @@ public class PostgreSQLOrderRepository implements OrderRepository {
     @Override
     public Order getOrderById(Long id) {
         TypedQuery<Order> query = entityManager.createQuery(
-                "SELECT o FROM Order o JOIN FETCH o.customer, o.address WHERE o.id= :id", Order.class);
+                "SELECT o FROM Order o JOIN FETCH o.pizzas WHERE o.id= :id", Order.class);
         query.setParameter("id", id);
         List<Order> orders = query.getResultList();
         if (orders.size()==0){
@@ -54,23 +63,35 @@ public class PostgreSQLOrderRepository implements OrderRepository {
 
     @Override
     public void updateOrder(Order order) {
-        Order order1 = getOrderById(order.getId());
-        order1.setPizzas(order.getPizzas());
-        order1.setCustomer(order.getCustomer());
-        order1.setCreationDate(order.getCreationDate());
-        order1.setDoneDate(order.getDoneDate());
-        order1.setCurrentState(order.getCurrentState());
-        order1.setFinalPrice(order.getFinalPrice());
+        Order managedOrder = entityManager.find(Order.class, order.getId());
+        Map<Pizza, Integer> managedPizzas = new HashMap<>();
+        System.out.println(order.getPizzas());
+        for (Map.Entry<Pizza, Integer> pizzas : order.getPizzas().entrySet()){
+            managedPizzas.put(entityManager.find(Pizza.class, pizzas.getKey().getId()), pizzas.getValue());
+        }
+        managedOrder.setAddress(entityManager.find(Address.class, order.getAddress().getId()));
+        managedOrder.setPizzas(managedPizzas);
+        managedOrder.setCustomer(entityManager.find(Customer.class, order.getCustomer().getId()));
+        managedOrder.setCreationDate(order.getCreationDate());
+        managedOrder.setDoneDate(order.getDoneDate());
+        managedOrder.setCurrentState(order.getCurrentState());
+        managedOrder.setFinalPrice(order.getFinalPrice());
+        entityManager.merge(managedOrder);
+        entityManager.flush();
     }
 
     @Override
     public void deleteOrder(Order order) {
-        entityManager.remove(order);
+        Order managedOrder = entityManager.find(Order.class, order.getId());
+        entityManager.remove(managedOrder);
+        entityManager.flush();
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        return entityManager.createQuery("SELECT o FROM Order o JOIN FETCH o.customer, o.address", Order.class).getResultList();
+    public Set<Order> getAllOrders() {
+        return new HashSet<>(entityManager.createQuery("" +
+                "SELECT o FROM Order o JOIN FETCH o.pizzas",
+                Order.class).getResultList());
     }
 
     @Override

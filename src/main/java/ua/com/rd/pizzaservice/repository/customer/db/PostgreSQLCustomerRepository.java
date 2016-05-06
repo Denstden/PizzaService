@@ -1,13 +1,16 @@
 package ua.com.rd.pizzaservice.repository.customer.db;
 
 import org.springframework.stereotype.Repository;
+import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.repository.customer.CustomerRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class PostgreSQLCustomerRepository implements CustomerRepository {
@@ -30,8 +33,9 @@ public class PostgreSQLCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void saveCustomer(Customer customer) {
+    public Customer saveCustomer(Customer customer) {
         entityManager.persist(customer);
+        return customer;
     }
 
     @Override
@@ -48,19 +52,28 @@ public class PostgreSQLCustomerRepository implements CustomerRepository {
 
     @Override
     public void updateCustomer(Customer customer) {
-        Customer customer1 = getCustomerById(customer.getId());
-        customer1.setName(customer.getName());
-        customer1.setAddresses(customer.getAddresses());
+        Customer managedCustomer = entityManager.find(Customer.class, customer.getId());
+        managedCustomer.setName(customer.getName());
+        Set<Address> addresses = new HashSet<>();
+        for (Address address: customer.getAddresses()){
+            addresses.add(entityManager.merge(address));
+        }
+        managedCustomer.setAddresses(addresses);
+        entityManager.merge(managedCustomer);
+        entityManager.flush();
     }
 
     @Override
-    public void deleteCustomer(Customer customer) {
-        entityManager.remove(customer);
+    public Customer deleteCustomer(Customer customer) {
+        Customer managedCustomer = entityManager.find(Customer.class, customer.getId());
+        entityManager.remove(managedCustomer);
+        entityManager.flush();
+        return customer;
     }
 
     @Override
-    public List<Customer> findAll() {
-        return entityManager.createQuery(
-                "SELECT c FROM Customer c JOIN FETCH c.addresses", Customer.class).getResultList();
+    public Set<Customer> findAll() {
+        return new HashSet<>(entityManager.createQuery(
+                "SELECT c FROM Customer c JOIN FETCH c.addresses", Customer.class).getResultList());
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 public class PizzaServiceImpl implements PizzaService{
@@ -27,8 +27,8 @@ public class PizzaServiceImpl implements PizzaService{
 
     @Override
     @Transactional
-    public void savePizza(Pizza pizza) {
-        pizzaRepository.addPizza(pizza);
+    public Pizza savePizza(Pizza pizza) {
+        return pizzaRepository.addPizza(pizza);
     }
 
     @Override
@@ -38,8 +38,14 @@ public class PizzaServiceImpl implements PizzaService{
     }
 
     @Override
+    public Pizza deletePizza(Pizza pizza) {
+        pizzaRepository.delete(pizza);
+        return pizza;
+    }
+
+    @Override
     @Transactional(readOnly = true)
-    public List<Pizza> findAll() {
+    public Set<Pizza> findAll() {
         return pizzaRepository.findAll();
     }
 }

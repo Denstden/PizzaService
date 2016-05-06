@@ -6,7 +6,8 @@ import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Repository
 public class PostgreSQLPizzaRepository implements PizzaRepository {
@@ -29,8 +30,9 @@ public class PostgreSQLPizzaRepository implements PizzaRepository {
     }
 
     @Override
-    public void addPizza(Pizza pizza) {
+    public Pizza addPizza(Pizza pizza) {
         entityManager.persist(pizza);
+        return pizza;
     }
 
     @Override
@@ -39,19 +41,15 @@ public class PostgreSQLPizzaRepository implements PizzaRepository {
     }
 
     @Override
-    public void update(Pizza pizza){
-        Pizza pizza1 = getPizzaByID(pizza.getId());
-        pizza1.setName(pizza.getName());
-        pizza1.setPrice(pizza.getPrice());
-        pizza1.setType(pizza.getType());
-    }
-    @Override
-    public void delete(Pizza pizza){
-        entityManager.remove(pizza);
+    public Pizza delete(Pizza pizza){
+        Pizza managedPizza = entityManager.getReference(Pizza.class, pizza.getId());
+        entityManager.remove(managedPizza);
+        entityManager.flush();
+        return managedPizza;
     }
 
     @Override
-    public List<Pizza> findAll() {
-        return entityManager.createQuery("SELECT p FROM Pizza p", Pizza.class).getResultList();
+    public Set<Pizza> findAll() {
+        return new HashSet<>(entityManager.createQuery("SELECT p FROM Pizza p", Pizza.class).getResultList());
     }
 }

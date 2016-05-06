@@ -2,12 +2,11 @@ package ua.com.rd.pizzaservice.repository.pizza;
 
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
-import java.util.List;
+import java.util.Set;
 
 public interface PizzaRepository {
-    void addPizza(Pizza pizza);
+    Pizza addPizza(Pizza pizza);
     Pizza getPizzaByID(Long id);
-    void update(Pizza pizza);
-    void delete(Pizza pizza);
-    List<Pizza> findAll();
+    Pizza delete(Pizza pizza);
+    Set<Pizza> findAll();
 }

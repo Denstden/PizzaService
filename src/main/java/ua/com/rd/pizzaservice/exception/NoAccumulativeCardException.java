@@ -1,4 +1,4 @@
-package ua.com.rd.pizzaservice.domain.customer;
+package ua.com.rd.pizzaservice.exception;
 
 public class NoAccumulativeCardException extends Exception {
     @Override

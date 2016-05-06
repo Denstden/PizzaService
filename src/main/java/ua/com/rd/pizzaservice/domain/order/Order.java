@@ -18,7 +18,7 @@ import java.util.*;
 public class Order {
     @Id
     @SequenceGenerator(name="ORDER_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="ORDER_SEQ")
+    @GeneratedValue(strategy= GenerationType.IDENTITY, generator="ORDER_SEQ")
     @Column(name = "ORDER_ID")
     private Long id;
 
@@ -153,7 +153,11 @@ public class Order {
     }
 
     public Integer getPizzasCount() {
-        return pizzas.size();
+        Integer count = 0;
+        for (Integer integer:pizzas.values()){
+            count+=integer;
+        }
+        return count;
     }
 
     public void addPizza(Pizza pizza, Integer count) {
@@ -187,19 +191,24 @@ public class Order {
                 finalPrice.equals(order.finalPrice) &&
                         currentState.equals(order.currentState) &&
                         creationDate.equals(order.creationDate) &&
-                        (doneDate.equals(order.doneDate));
+                        (doneDate.equals(order.doneDate)) &&
+                        customer.equals(order.customer) &&
+                        address.equals(order.address) &&
+                        pizzas.equals(order.pizzas);
 
     }
 
     @Override
     public int hashCode() {
         int result = 0;
-
         result = 31 * result + id.hashCode();
         result = 31 * result + finalPrice.hashCode();
         result = 31 * result + currentState.hashCode();
         result = 31 * result + creationDate.hashCode();
         result = 31 * result + doneDate.hashCode();
+        result = 31 * result + customer.hashCode();
+        result = 31 * result + address.hashCode();
+        result = 31 * result + pizzas.hashCode();
         return result;
     }
 }
