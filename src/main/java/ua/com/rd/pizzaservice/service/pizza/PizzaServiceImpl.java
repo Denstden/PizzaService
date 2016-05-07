@@ -9,7 +9,7 @@ import ua.com.rd.pizzaservice.repository.pizza.PizzaRepository;
 import java.util.Set;
 
 @Service
-public class PizzaServiceImpl implements PizzaService{
+public class PizzaServiceImpl implements PizzaService {
     @Autowired
     private PizzaRepository pizzaRepository;
 
@@ -34,7 +34,7 @@ public class PizzaServiceImpl implements PizzaService{
     @Override
     @Transactional(readOnly = true)
     public Pizza getPizzaById(Long id) {
-        return  pizzaRepository.getPizzaByID(id);
+        return pizzaRepository.getPizzaByID(id);
     }
 
     @Override

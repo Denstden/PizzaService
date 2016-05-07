@@ -34,7 +34,7 @@ public class InMemCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer getCustomerById(Long id){
+    public Customer getCustomerById(Long id) {
         for (Customer customer : customers) {
             if (customer.getId().equals(id)) {
                 return customer;
@@ -52,7 +52,7 @@ public class InMemCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer deleteCustomer(Customer customer) {
-        if (customers.remove(customer)){
+        if (customers.remove(customer)) {
             return customer;
         }
         return null;

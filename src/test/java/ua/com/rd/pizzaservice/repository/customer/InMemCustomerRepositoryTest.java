@@ -13,22 +13,22 @@ public class InMemCustomerRepositoryTest {
     private InMemCustomerRepository repository;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         repository = new InMemCustomerRepository();
     }
 
     @Test
-    public void getCustomerByIdShouldExists(){
-        Customer customer = new Customer(10l, "name", new Address("C","c","st","b"));
+    public void getCustomerByIdShouldExists() {
+        Customer customer = new Customer(10L, "name", new Address("C", "c", "st", "b"));
         repository.getCustomers().add(customer);
-        assertEquals(customer, repository.getCustomerById(10l));
+        assertEquals(customer, repository.getCustomerById(10L));
     }
 
     @Test
-    public void getCustomerByIdShouldNotExists(){
-        Customer customer = new Customer(10l, "name", new Address("C","c","st","b"));
+    public void getCustomerByIdShouldNotExists() {
+        Customer customer = new Customer(10L, "name", new Address("C", "c", "st", "b"));
         repository.getCustomers().add(customer);
-        assertNull(repository.getCustomerById(13l));
+        assertNull(repository.getCustomerById(13L));
     }
 
 }

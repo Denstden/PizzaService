@@ -32,14 +32,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean payForOrder(Order order){
+    public boolean payForOrder(Order order) {
         try {
             order.progress();
         } catch (IncorrectStateException e) {
             e.printStackTrace();
         }
-        System.out.println("You must pay "+order.getFinalPrice()
-                +" for your order.");
+        System.out.println("You must pay " + order.getFinalPrice()
+                + " for your order.");
 
         try {
             order.done();

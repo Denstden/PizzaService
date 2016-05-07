@@ -29,12 +29,12 @@ public class AccumulativeCardServiceImplInMemDbTest extends AbstractTransactiona
     private ServiceTestUtils serviceTestUtils;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         serviceTestUtils = new ServiceTestUtils(jdbcTemplate);
     }
 
     @Test
-    public void createCardTest(){
+    public void createCardTest() {
         Address address = serviceTestUtils.createAddress(1L, "Country", "City", "Street", "Building");
         Customer customer = serviceTestUtils.createCustomer(1L, "Petya", address);
         AccumulativeCard card = new AccumulativeCard(customer);
@@ -72,11 +72,11 @@ public class AccumulativeCardServiceImplInMemDbTest extends AbstractTransactiona
 
     private int getCountOfCardsById(Long cardId) {
         final String sql = "SELECT COUNT(*) FROM accumulative_cards WHERE accumulative_card_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{cardId},Integer.class);
+        return jdbcTemplate.queryForObject(sql, new Object[]{cardId}, Integer.class);
     }
 
     @Test
-    public void findAllTest(){
+    public void findAllTest() {
         Address address = serviceTestUtils.createAddress(1L, "Country", "City", "Street", "Building");
         Customer customer = serviceTestUtils.createCustomer(1L, "Petya", address);
         AccumulativeCard card1 = serviceTestUtils.createCard(customer, 1L);
@@ -91,5 +91,19 @@ public class AccumulativeCardServiceImplInMemDbTest extends AbstractTransactiona
         expected.add(card2);
         expected.add(card3);
         Assert.assertEquals(expected, cards);
+    }
+
+    @Test
+    public void addCashToCardTest() {
+        Address address = serviceTestUtils.createAddress(1L, "Country", "City", "Street", "Building");
+        Customer customer = serviceTestUtils.createCustomer(1L, "Petya", address);
+        AccumulativeCard card = serviceTestUtils.createCard(customer, 1L);
+
+        final double cashToAdding = 150.;
+        accumulativeCardService.addCashToCard(card, cashToAdding);
+
+        final String sql = "SELECT cash FROM accumulative_cards WHERE accumulative_card_id = ?";
+        double cash = jdbcTemplate.queryForObject(sql, new Object[]{card.getId()}, Double.class);
+        Assert.assertEquals(cashToAdding, cash, 0.0001);
     }
 }

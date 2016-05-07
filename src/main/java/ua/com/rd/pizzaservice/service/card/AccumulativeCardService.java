@@ -8,7 +8,12 @@ import java.util.Set;
 
 public interface AccumulativeCardService {
     AccumulativeCard findCard(Customer customer) throws NoAccumulativeCardException;
+
     AccumulativeCard createCard(AccumulativeCard card);
+
     AccumulativeCard deleteCard(AccumulativeCard card);
+
+    AccumulativeCard addCashToCard(AccumulativeCard card, Double cash);
+
     Set<AccumulativeCard> findAll();
 }

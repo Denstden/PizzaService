@@ -33,8 +33,8 @@ public class InMemOrderRepository implements OrderRepository {
 
     @Override
     public Order getOrderById(Long id) {
-        for (Order order:orders){
-            if (order.getId().equals(id)){
+        for (Order order : orders) {
+            if (order.getId().equals(id)) {
                 return order;
             }
         }
@@ -43,8 +43,8 @@ public class InMemOrderRepository implements OrderRepository {
 
     @Override
     public void updateOrder(Order order) {
-        for (Order order1:orders){
-            if (order1.getId().equals(order.getId())){
+        for (Order order1 : orders) {
+            if (order1.getId().equals(order.getId())) {
                 order1.setPizzas(order.getPizzas());
                 order1.setCustomer(order.getCustomer());
                 order1.setCreationDate(order.getCreationDate());

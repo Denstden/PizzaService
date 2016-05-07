@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -11,13 +11,13 @@
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-       <context:component-scan base-package="ua.com.rd.pizzaservice.service"/>
-       <context:component-scan base-package="ua.com.rd.pizzaservice.domain.order"/>
+    <context:component-scan base-package="ua.com.rd.pizzaservice.service"/>
+    <context:component-scan base-package="ua.com.rd.pizzaservice.domain.order"/>
 
-       <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
-       <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-              <property name="entityManagerFactory" ref="entityManagerFactory"/>
-       </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
 
 </beans>

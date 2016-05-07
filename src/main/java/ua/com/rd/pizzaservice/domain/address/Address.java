@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class Address {
     @Id
     //@SequenceGenerator(name="ADDRESS_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.IDENTITY/*, generator="ADDRESS_SEQ"*/)
+    @GeneratedValue(strategy = GenerationType.IDENTITY/*, generator="ADDRESS_SEQ"*/)
     @Column(name = "ADDRESS_ID")
     private Long id;
 
@@ -27,7 +27,7 @@ public class Address {
     @Version
     private Integer version;
 
-    public Address(){
+    public Address() {
     }
 
     public Address(String country, String city, String street, String building) {
@@ -88,7 +88,7 @@ public class Address {
         if (o == null || getClass() != o.getClass()) return false;
 
         Address address = (Address) o;
-        if (id!=null && address.getId()!=null && id.equals(address.getId())){
+        if (id != null && address.getId() != null && id.equals(address.getId())) {
             return true;
         }
 
@@ -102,7 +102,7 @@ public class Address {
     @Override
     public int hashCode() {
         int result = country.hashCode();
-        if (id!=null) {
+        if (id != null) {
             result = 31 * result + id.hashCode();
         }
         result = 31 * result + city.hashCode();

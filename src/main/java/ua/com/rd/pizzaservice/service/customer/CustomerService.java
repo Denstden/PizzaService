@@ -7,10 +7,15 @@ import java.util.Set;
 
 public interface CustomerService {
     Customer getCustomerById(Long id);
+
     Customer saveCustomer(Customer customer);
+
     void updateCustomer(Customer customer);
+
     Customer deleteCustomer(Customer customer);
+
     /*Set<Order> getCustomersOrders(Customer customer);*/
     Set<Customer> findAll();
+
     boolean payForOrder(Order order);
 }

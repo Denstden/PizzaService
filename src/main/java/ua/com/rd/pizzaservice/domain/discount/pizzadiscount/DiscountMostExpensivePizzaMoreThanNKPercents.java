@@ -2,9 +2,7 @@ package ua.com.rd.pizzaservice.domain.discount.pizzadiscount;
 
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DiscountMostExpensivePizzaMoreThanNKPercents
@@ -35,26 +33,35 @@ public class DiscountMostExpensivePizzaMoreThanNKPercents
         this.percents = percents;
     }
 
+    public Map<Pizza, Integer> getPizzas() {
+        return pizzas;
+    }
+
     @Override
     public void setPizzas(Map<Pizza, Integer> pizzas) {
         this.pizzas = pizzas;
     }
 
-    public  Map<Pizza, Integer> getPizzas() {
-        return pizzas;
-    }
-
     @Override
     public Double calculate() {
-        if (pizzas.size() > n) {
-            return mostExpensivePizzaPrice(pizzas) * percents / 100;
+        Integer countPizzas = countPizzas();
+        if (countPizzas > n) {
+            return mostExpensivePizzaPrice() * percents / 100;
         }
         return 0.;
     }
 
-    private Double mostExpensivePizzaPrice(Map<Pizza, Integer> map) {
+    private Integer countPizzas() {
+        Integer res = 0;
+        for (Integer count : pizzas.values()) {
+            res += count;
+        }
+        return res;
+    }
+
+    private Double mostExpensivePizzaPrice() {
         Double maxPrice = Double.MIN_VALUE;
-        for (Pizza pizza: map.keySet()) {
+        for (Pizza pizza : pizzas.keySet()) {
             if (pizza.getPrice() > maxPrice) {
                 maxPrice = pizza.getPrice();
             }

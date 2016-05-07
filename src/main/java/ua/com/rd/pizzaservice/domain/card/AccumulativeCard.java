@@ -8,15 +8,15 @@ import javax.persistence.*;
 @Table(name = "ACCUMULATIVE_CARDS")
 public class AccumulativeCard {
     @Id
-    @SequenceGenerator(name="ACCUMULATIVE_CARD_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="ACCUMULATIVE_CARD_SEQ")
-    @Column(name ="ACCUMULATIVE_CARD_ID")
+    @SequenceGenerator(name = "ACCUMULATIVE_CARD_SEQ", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "ACCUMULATIVE_CARD_SEQ")
+    @Column(name = "ACCUMULATIVE_CARD_ID")
     private Long id;
 
-    @Column(name ="CASH")
+    @Column(name = "CASH")
     private Double cash = 0.;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private Customer customer;
 
     @Version
@@ -71,7 +71,7 @@ public class AccumulativeCard {
         if (o == null || getClass() != o.getClass()) return false;
 
         AccumulativeCard card = (AccumulativeCard) o;
-        if (id!=null && card.getId()!=null && id.equals(card.getId())){
+        if (id != null && card.getId() != null && id.equals(card.getId())) {
             return true;
         }
 
@@ -83,7 +83,7 @@ public class AccumulativeCard {
     @Override
     public int hashCode() {
         int result = cash.hashCode();
-        if (id!=null) {
+        if (id != null) {
             result = 31 * result + id.hashCode();
         }
         result = 31 * result + customer.hashCode();

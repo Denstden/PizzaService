@@ -20,16 +20,16 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public Double calculateDiscounts(Order order){
+    public Double calculateDiscounts(Order order) {
         Double discount = 0d;
-        for (Discountable discountable :getDiscounts(order)){
+        for (Discountable discountable : getDiscounts(order)) {
             discount += discountable.calculate();
         }
-        order.setFinalPrice(order.getFinalPrice()-discount);
+        order.setFinalPrice(order.getFinalPrice() - discount);
         return discount;
     }
 
-    private List<Discountable> getDiscounts(Order order){
+    private List<Discountable> getDiscounts(Order order) {
         return discountProvider.getDiscountsForOrder(order);
     }
 }

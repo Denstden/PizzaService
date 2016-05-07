@@ -39,7 +39,7 @@ public class PostgreSQLOrderRepository implements OrderRepository {
         Address managedOrdersAddress = entityManager.merge(order.getAddress());
         order.setAddress(managedOrdersAddress);
         Set<Address> managedCustomersAddresses = new HashSet<>();
-        for (Address address: order.getCustomer().getAddresses()){
+        for (Address address : order.getCustomer().getAddresses()) {
             managedCustomersAddresses.add(entityManager.merge(address));
         }
         order.getCustomer().setAddresses(managedCustomersAddresses);
@@ -55,7 +55,7 @@ public class PostgreSQLOrderRepository implements OrderRepository {
                 "SELECT o FROM Order o JOIN FETCH o.pizzas WHERE o.id= :id", Order.class);
         query.setParameter("id", id);
         List<Order> orders = query.getResultList();
-        if (orders.size()==0){
+        if (orders.size() == 0) {
             return null;
         }
         return orders.get(0);
@@ -65,18 +65,16 @@ public class PostgreSQLOrderRepository implements OrderRepository {
     public void updateOrder(Order order) {
         Order managedOrder = entityManager.find(Order.class, order.getId());
         Map<Pizza, Integer> managedPizzas = new HashMap<>();
-        System.out.println(order.getPizzas());
-        for (Map.Entry<Pizza, Integer> pizzas : order.getPizzas().entrySet()){
+        for (Map.Entry<Pizza, Integer> pizzas : order.getPizzas().entrySet()) {
             managedPizzas.put(entityManager.find(Pizza.class, pizzas.getKey().getId()), pizzas.getValue());
         }
-        managedOrder.setAddress(entityManager.find(Address.class, order.getAddress().getId()));
+        managedOrder.setAddress(entityManager.getReference(Address.class, order.getAddress().getId()));
         managedOrder.setPizzas(managedPizzas);
-        managedOrder.setCustomer(entityManager.find(Customer.class, order.getCustomer().getId()));
+        managedOrder.setCustomer(entityManager.getReference(Customer.class, order.getCustomer().getId()));
         managedOrder.setCreationDate(order.getCreationDate());
         managedOrder.setDoneDate(order.getDoneDate());
         managedOrder.setCurrentState(order.getCurrentState());
         managedOrder.setFinalPrice(order.getFinalPrice());
-        entityManager.merge(managedOrder);
         entityManager.flush();
     }
 
@@ -90,7 +88,7 @@ public class PostgreSQLOrderRepository implements OrderRepository {
     @Override
     public Set<Order> getAllOrders() {
         return new HashSet<>(entityManager.createQuery("" +
-                "SELECT o FROM Order o JOIN FETCH o.pizzas",
+                        "SELECT o FROM Order o JOIN FETCH o.pizzas",
                 Order.class).getResultList());
     }
 

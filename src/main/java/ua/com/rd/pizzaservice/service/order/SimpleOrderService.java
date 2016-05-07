@@ -12,7 +12,10 @@ import ua.com.rd.pizzaservice.exception.InvalidPizzasCountException;
 import ua.com.rd.pizzaservice.repository.order.OrderRepository;
 import ua.com.rd.pizzaservice.service.pizza.PizzaService;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -43,7 +46,7 @@ public class SimpleOrderService implements OrderService {
     @Override
     public Order placeNewOrder(Customer customer, Address address, Long... pizzasID)
             throws InvalidPizzasCountException {
-        if (pizzasID.length>MAX_COUNT_OF_PIZZAS_IN_ORDER || pizzasID.length<1){
+        if (pizzasID.length > MAX_COUNT_OF_PIZZAS_IN_ORDER || pizzasID.length < 1) {
             throw new InvalidPizzasCountException();
         }
         Map<Pizza, Integer> pizzas = pizzasByArrOfId(pizzasID);
@@ -61,7 +64,7 @@ public class SimpleOrderService implements OrderService {
     @Override
     public boolean addPizzasToOrder(Order order, Long pizzaID, int count)
             throws InvalidPizzasCountException {
-        if (count<1 || order.getPizzasCount()+count>MAX_COUNT_OF_PIZZAS_IN_ORDER){
+        if (count < 1 || order.getPizzasCount() + count > MAX_COUNT_OF_PIZZAS_IN_ORDER) {
             throw new InvalidPizzasCountException();
         }
 
@@ -86,16 +89,15 @@ public class SimpleOrderService implements OrderService {
         return new Order();
     }
 
-    private Map<Pizza, Integer> pizzasByArrOfId(Long ... pizzasID) {
+    private Map<Pizza, Integer> pizzasByArrOfId(Long... pizzasID) {
         Map<Pizza, Integer> pizzas = new HashMap<>();
         Pizza pizza;
-        for(Long id : pizzasID){
+        for (Long id : pizzasID) {
             pizza = pizzaService.getPizzaById(id);
-            if (pizzas.containsKey(pizza)){
-                pizzas.replace(pizza, pizzas.get(pizza)+1);
-            }
-            else {
-                pizzas.put(pizza, 1);  // get Pizza from predifined in-memory list
+            if (pizzas.containsKey(pizza)) {
+                pizzas.replace(pizza, pizzas.get(pizza) + 1);
+            } else {
+                pizzas.put(pizza, 1);  // get Pizza from predefined in-memory list
             }
         }
         return pizzas;

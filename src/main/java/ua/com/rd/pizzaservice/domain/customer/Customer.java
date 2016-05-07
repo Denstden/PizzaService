@@ -10,8 +10,8 @@ import java.util.Set;
 @Entity
 public class Customer {
     @Id
-    @SequenceGenerator(name="CUSTOMER_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy= GenerationType.IDENTITY, generator="CUSTOMER_SEQ")
+    @SequenceGenerator(name = "CUSTOMER_SEQ", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "CUSTOMER_SEQ")
     @Column(name = "CUSTOMER_ID")
     private Long id;
 
@@ -24,7 +24,7 @@ public class Customer {
     @Version
     private Integer version;
 
-    public Customer(){
+    public Customer() {
     }
 
     public Customer(Long id, String name, Address address) {
@@ -57,7 +57,7 @@ public class Customer {
         this.addresses = addresses;
     }
 
-    public void addAddress(Address address){
+    public void addAddress(Address address) {
         addresses.add(address);
     }
 

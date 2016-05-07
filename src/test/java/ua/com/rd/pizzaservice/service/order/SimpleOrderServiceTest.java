@@ -30,7 +30,7 @@ public class SimpleOrderServiceTest {
     private SimpleOrderService orderService;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         doReturn(new Pizza(1L, "Margarita", 180., Pizza.PizzaType.MEAT))
                 .when(pizzaService).getPizzaById(1L);
         doReturn(new Pizza(2L, "Four seasons", 200., Pizza.PizzaType.VEGETARIAN))
@@ -92,7 +92,7 @@ public class SimpleOrderServiceTest {
         SimpleOrderService orderService = new SimpleOrderService();
         OrderRepository orderRepository = new InMemOrderRepository();
         orderService.setOrderRepository(orderRepository);
-        PizzaRepository pizzaRepository= new InMemPizzaRepository();
+        PizzaRepository pizzaRepository = new InMemPizzaRepository();
         PizzaServiceImpl pizzaService = new PizzaServiceImpl();
         pizzaService.setPizzaRepository(pizzaRepository);
         pizzaService.savePizza(new Pizza(1L, "Margarita", 180., Pizza.PizzaType.MEAT));

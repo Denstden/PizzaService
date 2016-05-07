@@ -41,7 +41,7 @@ public class PostgreSQLPizzaRepository implements PizzaRepository {
     }
 
     @Override
-    public Pizza delete(Pizza pizza){
+    public Pizza delete(Pizza pizza) {
         Pizza managedPizza = entityManager.getReference(Pizza.class, pizza.getId());
         entityManager.remove(managedPizza);
         entityManager.flush();
@@ -50,6 +50,7 @@ public class PostgreSQLPizzaRepository implements PizzaRepository {
 
     @Override
     public Set<Pizza> findAll() {
-        return new HashSet<>(entityManager.createQuery("SELECT p FROM Pizza p", Pizza.class).getResultList());
+        return new HashSet<>(entityManager.createQuery("" +
+                "SELECT p FROM Pizza p", Pizza.class).getResultList());
     }
 }

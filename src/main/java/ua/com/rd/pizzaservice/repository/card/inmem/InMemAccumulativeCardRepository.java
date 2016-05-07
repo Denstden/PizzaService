@@ -27,8 +27,8 @@ public class InMemAccumulativeCardRepository
 
     @Override
     public void updateCard(AccumulativeCard card) {
-        for (AccumulativeCard card1: cards){
-            if (card1.getId().equals(card.getId())){
+        for (AccumulativeCard card1 : cards) {
+            if (card1.getId().equals(card.getId())) {
                 card1.setCustomer(card.getCustomer());
                 card1.setCash(card.getCash());
             }
@@ -37,8 +37,8 @@ public class InMemAccumulativeCardRepository
 
     @Override
     public AccumulativeCard getCardById(Long id) {
-        for (AccumulativeCard card1: cards){
-            if (card1.getId().equals(id)){
+        for (AccumulativeCard card1 : cards) {
+            if (card1.getId().equals(id)) {
                 return card1;
             }
         }
@@ -53,8 +53,8 @@ public class InMemAccumulativeCardRepository
 
     @Override
     public AccumulativeCard getCardByCustomer(Customer customer) throws NoAccumulativeCardException {
-        for (AccumulativeCard card: cards){
-            if (card.getCustomer().equals(customer)){
+        for (AccumulativeCard card : cards) {
+            if (card.getCustomer().equals(customer)) {
                 return card;
             }
         }

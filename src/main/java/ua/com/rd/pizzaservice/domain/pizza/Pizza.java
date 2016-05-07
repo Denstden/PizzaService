@@ -6,8 +6,8 @@ import javax.persistence.*;
 @Table(name = "PIZZAS")
 public class Pizza {
     @Id
-    @SequenceGenerator(name="PIZZA_SEQ", initialValue=1, allocationSize=1)
-    @GeneratedValue(strategy= GenerationType.IDENTITY, generator="PIZZA_SEQ")
+    @SequenceGenerator(name = "PIZZA_SEQ", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PIZZA_SEQ")
     @Column(name = "PIZZA_ID")
     private Long id;
 
@@ -24,7 +24,7 @@ public class Pizza {
     @Version
     private Integer version;
 
-    public Pizza(){
+    public Pizza() {
     }
 
     public Pizza(Long id, String name, Double price, PizzaType type) {
@@ -72,12 +72,6 @@ public class Pizza {
         this.type = type;
     }
 
-    public enum PizzaType {
-        VEGETARIAN,
-        SEA,
-        MEAT
-    }
-
     @Override
     public String toString() {
         return "Pizza{" +
@@ -94,7 +88,7 @@ public class Pizza {
         if (o == null || getClass() != o.getClass()) return false;
 
         Pizza pizza = (Pizza) o;
-        if (id!=null && pizza.getId()!=null && id.equals(pizza.getId())){
+        if (id != null && pizza.getId() != null && id.equals(pizza.getId())) {
             return true;
         }
 
@@ -107,11 +101,17 @@ public class Pizza {
     @Override
     public int hashCode() {
         int result = name.hashCode();
-        if (id!=null) {
+        if (id != null) {
             result = 31 * result + id.hashCode();
         }
         result = 31 * result + price.hashCode();
         result = 31 * result + type.hashCode();
         return result;
+    }
+
+    public enum PizzaType {
+        VEGETARIAN,
+        SEA,
+        MEAT
     }
 }

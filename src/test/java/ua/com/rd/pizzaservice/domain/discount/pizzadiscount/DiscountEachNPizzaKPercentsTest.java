@@ -2,77 +2,66 @@ package ua.com.rd.pizzaservice.domain.discount.pizzadiscount;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.com.rd.pizzaservice.domain.pizza.Pizza;
-import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class DiscountEachNPizzaKPercentsTest {
     private DiscountEachNPizzaKPercents discount;
 
     @Before
-    public void setUp(){
-        discount = new DiscountEachNPizzaKPercents(4,50.);
+    public void setUp() {
+        discount = new DiscountEachNPizzaKPercents(4, 50.);
     }
 
     @Test
-    public void calculateDiscountForThreePizzasShouldBeZero(){
-        /*List<Pizza> pizzas = new ArrayList<Pizza>(){{
-            add(new Pizza("Pizza 1", 100., Pizza.PizzaType.MEAT));
-            add(new Pizza("Pizza 2", 120., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 3", 110., Pizza.PizzaType.MEAT));
+    public void calculateDiscountForThreePizzasShouldBeZero() {
+        Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>() {{
+            put(new Pizza("Pizza 1", 100., Pizza.PizzaType.MEAT), 1);
+            put(new Pizza("Pizza 2", 120., Pizza.PizzaType.SEA), 1);
+            put(new Pizza("Pizza 3", 110., Pizza.PizzaType.MEAT), 1);
         }};
         discount.setPizzas(pizzas);
         Double expected = 0.;
-        assertEquals(expected, discount.calculate());*/
+        assertEquals(expected, discount.calculate());
     }
 
     @Test
-    public void calculateDiscountForFourPizzasShouldBeNotZero(){
-        /*List<Pizza> pizzas = new ArrayList<Pizza>(){{
-            add(new Pizza("Pizza 1", 100., Pizza.PizzaType.MEAT));
-            add(new Pizza("Pizza 2", 110., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 3", 110., Pizza.PizzaType.MEAT));
-            add(new Pizza("Pizza 4", 120., Pizza.PizzaType.SEA));
+    public void calculateDiscountForFourPizzasShouldBeNotZero() {
+        Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>() {{
+            put(new Pizza("Pizza 1", 100., Pizza.PizzaType.MEAT), 1);
+            put(new Pizza("Pizza 2", 110., Pizza.PizzaType.SEA), 2);
+            put(new Pizza("Pizza 3", 120., Pizza.PizzaType.SEA), 1);
         }};
         discount.setPizzas(pizzas);
         Double expected = 60.;
-        assertEquals(expected, discount.calculate());*/
+        assertEquals(expected, discount.calculate());
     }
 
     @Test
-    public void calculateDiscountForSevenPizzasShouldBeNotZero(){
-        /*List<Pizza> pizzas = new ArrayList<Pizza>(){{
-            add(new Pizza("Pizza 1", 100., Pizza.PizzaType.MEAT));
-            add(new Pizza("Pizza 2", 110., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 3", 110., Pizza.PizzaType.MEAT));
-            add(new Pizza("Pizza 4", 120., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 5", 130., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 6", 140., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 7", 150., Pizza.PizzaType.SEA));
+    public void calculateDiscountForSevenPizzasShouldBeNotZero() {
+        Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>() {{
+            put(new Pizza("Pizza 1", 100., Pizza.PizzaType.MEAT), 1);
+            put(new Pizza("Pizza 2", 110., Pizza.PizzaType.SEA), 4);
+            put(new Pizza("Pizza 3", 120., Pizza.PizzaType.SEA), 2);
         }};
         discount.setPizzas(pizzas);
         Double expected = 60.;
-        assertEquals(expected, discount.calculate());*/
+        assertEquals(expected, discount.calculate());
     }
 
     @Test
-    public void getDiscountForEightPizzasShouldBeNotZero(){
-        /*List<Pizza> pizzas = new ArrayList<Pizza>(){{
-            add(new Pizza("Pizza 1", 100., Pizza.PizzaType.MEAT));
-            add(new Pizza("Pizza 2", 110., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 3", 110., Pizza.PizzaType.MEAT));
-            add(new Pizza("Pizza 4", 120., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 5", 130., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 6", 140., Pizza.PizzaType.VEGETARIAN));
-            add(new Pizza("Pizza 7", 150., Pizza.PizzaType.SEA));
-            add(new Pizza("Pizza 8", 160., Pizza.PizzaType.VEGETARIAN));
+    public void getDiscountForEightPizzasShouldBeNotZero() {
+        Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>() {{
+            put(new Pizza("Pizza 1", 100., Pizza.PizzaType.MEAT), 1);
+            put(new Pizza("Pizza 2", 120., Pizza.PizzaType.SEA), 6);
+            put(new Pizza("Pizza 3", 140., Pizza.PizzaType.SEA), 1);
         }};
         discount.setPizzas(pizzas);
-        Double expected = 140.;
-        assertEquals(expected, discount.calculate());*/
+        Double expected = 130.;
+        assertEquals(expected, discount.calculate());
     }
 }

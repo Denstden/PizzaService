@@ -34,6 +34,11 @@ public class PostgreSQLCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer saveCustomer(Customer customer) {
+        Set<Address> managedAddresses = new HashSet<>();
+        for (Address address : customer.getAddresses()) {
+            managedAddresses.add(entityManager.merge(address));
+        }
+        customer.setAddresses(managedAddresses);
         entityManager.persist(customer);
         return customer;
     }
@@ -41,10 +46,10 @@ public class PostgreSQLCustomerRepository implements CustomerRepository {
     @Override
     public Customer getCustomerById(Long id) {
         TypedQuery<Customer> query = entityManager.createQuery(
-                "SELECT c FROM Customer c JOIN FETCH c.addresses WHERE c.id= :id", Customer.class);
+                "SELECT c FROM Customer c LEFT JOIN FETCH c.addresses WHERE c.id= :id", Customer.class);
         query.setParameter("id", id);
         List<Customer> customers = query.getResultList();
-        if (customers.size()==0){
+        if (customers.size() == 0) {
             return null;
         }
         return customers.get(0);
@@ -55,11 +60,10 @@ public class PostgreSQLCustomerRepository implements CustomerRepository {
         Customer managedCustomer = entityManager.find(Customer.class, customer.getId());
         managedCustomer.setName(customer.getName());
         Set<Address> addresses = new HashSet<>();
-        for (Address address: customer.getAddresses()){
+        for (Address address : customer.getAddresses()) {
             addresses.add(entityManager.merge(address));
         }
         managedCustomer.setAddresses(addresses);
-        entityManager.merge(managedCustomer);
         entityManager.flush();
     }
 
@@ -74,6 +78,6 @@ public class PostgreSQLCustomerRepository implements CustomerRepository {
     @Override
     public Set<Customer> findAll() {
         return new HashSet<>(entityManager.createQuery(
-                "SELECT c FROM Customer c JOIN FETCH c.addresses", Customer.class).getResultList());
+                "SELECT c FROM Customer c LEFT JOIN FETCH c.addresses", Customer.class).getResultList());
     }
 }

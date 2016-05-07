@@ -2,8 +2,6 @@ package ua.com.rd.pizzaservice.repository.order;
 
 import ua.com.rd.pizzaservice.repository.order.inmem.InMemOrderRepository;
 
-import static org.junit.Assert.assertEquals;
-
 public class InMemOrderRepositoryTest {
     private InMemOrderRepository repository;
 

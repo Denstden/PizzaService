@@ -34,7 +34,7 @@ public class ServiceTestUtils extends AbstractTransactionalJUnit4SpringContextTe
         return pizza;
     }
 
-    public Address createAddress(Long id, String country, String city, String street, String building){
+    public Address createAddress(Long id, String country, String city, String street, String building) {
         Address address = new Address(country, city, street, building);
         address.setId(id);
         jdbcTemplate.update(
@@ -45,10 +45,10 @@ public class ServiceTestUtils extends AbstractTransactionalJUnit4SpringContextTe
         return address;
     }
 
-    public Customer createCustomer(Long id, String name, Address address){
+    public Customer createCustomer(Long id, String name, Address address) {
         Customer customer = new Customer();
         customer.setName(name);
-        Set<Address> addresses = new HashSet<Address>(){{
+        Set<Address> addresses = new HashSet<Address>() {{
             add(address);
         }};
         customer.setAddresses(addresses);
@@ -77,15 +77,15 @@ public class ServiceTestUtils extends AbstractTransactionalJUnit4SpringContextTe
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 id, address.getId(), customer.getId(), creationDate, doneDate,
                 new StateConverter().convertToDatabaseColumn(order.getCurrentState()), order.getFinalPrice(), 0);
-        for (Map.Entry<Pizza, Integer> entry: pizzas.entrySet()){
+        for (Map.Entry<Pizza, Integer> entry : pizzas.entrySet()) {
             jdbcTemplate.update(
-                "INSERT INTO orders_pizzas (order_order_id, pizza_id, count) VALUES (?, ?, ?)",
+                    "INSERT INTO orders_pizzas (order_order_id, pizza_id, count) VALUES (?, ?, ?)",
                     order.getId(), entry.getKey().getId(), entry.getValue());
         }
         return order;
     }
 
-    public AccumulativeCard createCard(Customer customer, Long id){
+    public AccumulativeCard createCard(Customer customer, Long id) {
         AccumulativeCard card = new AccumulativeCard();
         card.setId(id);
         card.setCash(0D);

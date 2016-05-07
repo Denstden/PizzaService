@@ -9,8 +9,12 @@ import java.util.Set;
 
 public interface OrderService {
     Order getOrderById(Long id);
+
     Order placeNewOrder(Customer customer, Address address, Long... pizzasID) throws InvalidPizzasCountException;
+
     boolean addPizzasToOrder(Order order, Long pizzaID, int count) throws InvalidPizzasCountException;
+
     void deleteOrder(Order order);
+
     Set<Order> findAll();
 }

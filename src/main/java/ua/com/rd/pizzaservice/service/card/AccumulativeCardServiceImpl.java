@@ -41,6 +41,14 @@ public class AccumulativeCardServiceImpl implements AccumulativeCardService {
     }
 
     @Override
+    @Transactional
+    public AccumulativeCard addCashToCard(AccumulativeCard card, Double cash) {
+        card.addCash(cash);
+        accumulativeCardRepository.updateCard(card);
+        return card;
+    }
+
+    @Override
     public Set<AccumulativeCard> findAll() {
         return accumulativeCardRepository.getCards();
     }

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRepository{
+public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -50,16 +50,16 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
 
     @Override
     public void updateCard(AccumulativeCard card) {
-        AccumulativeCard card1 = getCardById(card.getId());
-        card1.setCash(card.getCash());
-        card1.setCustomer(card.getCustomer());
+        AccumulativeCard managedCard = getCardById(card.getId());
+        managedCard.setCash(card.getCash());
+        entityManager.flush();
     }
 
     @Override
     public AccumulativeCard getCardById(Long id) {
         TypedQuery<AccumulativeCard> query = entityManager.createQuery(
                 "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer cc" +
-                        " JOIN FETCH cc.addresses WHERE c.id= :id", AccumulativeCard.class);
+                        " LEFT JOIN FETCH cc.addresses WHERE c.id= :id", AccumulativeCard.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }
@@ -76,11 +76,12 @@ public class PostgreSQLAccumulativeCardRepository implements AccumulativeCardRep
     public AccumulativeCard getCardByCustomer(Customer customer) throws NoAccumulativeCardException {
         Customer attachedCustomer = entityManager.getReference(Customer.class, customer.getId());
         TypedQuery<AccumulativeCard> query = entityManager.createQuery(
-                "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer cc JOIN FETCH cc.addresses WHERE c.customer= :customer", AccumulativeCard.class);
+                "SELECT c FROM AccumulativeCard c JOIN FETCH c.customer cc " +
+                        "LEFT JOIN FETCH cc.addresses WHERE c.customer= :customer", AccumulativeCard.class);
         query.setParameter("customer", attachedCustomer);
         List<AccumulativeCard> cards = query.getResultList();
-        if (cards.size()==0){
-            throw  new NoAccumulativeCardException();
+        if (cards.size() == 0) {
+            throw new NoAccumulativeCardException();
         }
         return cards.get(0);
     }

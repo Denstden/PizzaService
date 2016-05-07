@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -9,6 +9,7 @@
        http://www.springframework.org/schema/context/spring-context.xsd"
        profile="db">
 
+    <context:component-scan base-package="ua.com.rd.pizzaservice.repository.address.db"/>
     <context:component-scan base-package="ua.com.rd.pizzaservice.repository.card.db"/>
     <context:component-scan base-package="ua.com.rd.pizzaservice.repository.customer.db"/>
     <context:component-scan base-package="ua.com.rd.pizzaservice.repository.order.db"/>
@@ -16,10 +17,10 @@
     <context:property-placeholder system-properties-mode="OVERRIDE" location="classpath:jdbc.properties"/>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="ua.com.rd.pizzaservice.domain" />
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="ua.com.rd.pizzaservice.domain"/>
         <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
         </property>
         <property name="jpaProperties">
             <props>
@@ -32,10 +33,10 @@
     </bean>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${driver}" />
-        <property name="url" value="${url}" />
-        <property name="username" value="${user}" />
-        <property name="password" value="${password}" />
+        <property name="driverClassName" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${user}"/>
+        <property name="password" value="${password}"/>
         <property name="initialSize" value="5"/>
     </bean>
 </beans>

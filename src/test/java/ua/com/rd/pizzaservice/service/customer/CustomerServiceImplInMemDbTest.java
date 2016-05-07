@@ -5,8 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -14,8 +12,6 @@ import ua.com.rd.pizzaservice.domain.address.Address;
 import ua.com.rd.pizzaservice.domain.customer.Customer;
 import ua.com.rd.pizzaservice.service.ServiceTestUtils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,12 +27,12 @@ public class CustomerServiceImplInMemDbTest extends AbstractTransactionalJUnit4S
     private ServiceTestUtils serviceTestUtils;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         serviceTestUtils = new ServiceTestUtils(jdbcTemplate);
     }
 
     @Test
-    public void getCustomerByIdTest(){
+    public void getCustomerByIdTest() {
         Address address = serviceTestUtils.createAddress(1L, "Country", "City", "Street", "Building");
         Customer customer = serviceTestUtils.createCustomer(1L, "Petya", address);
 
@@ -45,17 +41,19 @@ public class CustomerServiceImplInMemDbTest extends AbstractTransactionalJUnit4S
     }
 
     @Test
-    public void saveCustomerTest(){
+    public void saveCustomerTest() {
         Address address = serviceTestUtils.createAddress(1L, "Country", "City", "Street", "Building");
         Customer customer = new Customer();
         customer.setName("Petr");
-        customer.setAddresses(new HashSet<Address>(){{add(address);}});
+        customer.setAddresses(new HashSet<Address>() {{
+            add(address);
+        }});
         customerService.saveCustomer(customer);
         Assert.assertNotNull(customer.getId());
     }
 
     @Test
-    public void updateCustomerTest(){
+    public void updateCustomerTest() {
         Address address = serviceTestUtils.createAddress(1L, "Country", "City", "Street", "Building");
         Customer customer = serviceTestUtils.createCustomer(1L, "Petya", address);
 
@@ -64,38 +62,35 @@ public class CustomerServiceImplInMemDbTest extends AbstractTransactionalJUnit4S
         customer.addAddress(newAddress);
         customerService.updateCustomer(customer);
 
-        Customer updatedCustomer  = getById(customer.getId());
+        Customer updatedCustomer = getById(customer.getId());
         Assert.assertEquals(customer, updatedCustomer);
     }
 
-    private Customer getById(Long id){
+    private Customer getById(Long id) {
         return jdbcTemplate.query("SELECT c.customer_name, a.address_id, a.country, a.city, a.street, a.building " +
                 "FROM customers c, addresses a, customers_addresses ca " +
                 "WHERE ca.customer_customer_id = c.customer_id AND ca.addresses_address_id = a.address_id AND " +
-                "c.customer_id = ?;", new Object[]{id}, new ResultSetExtractor<Customer>() {
-            @Override
-            public Customer extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-                Customer customer = new Customer();
-                customer.setId(id);
-                Set<Address> addresses = new HashSet<>();
-                while (resultSet.next()){
-                    customer.setName(resultSet.getString("customer_name"));
-                    Address address = new Address();
-                    address.setId(resultSet.getLong("address_id"));
-                    address.setCountry(resultSet.getString("country"));
-                    address.setCity(resultSet.getString("city"));
-                    address.setStreet(resultSet.getString("street"));
-                    address.setBuilding(resultSet.getString("building"));
-                    addresses.add(address);
-                }
-                customer.setAddresses(addresses);
-                return customer;
+                "c.customer_id = ?;", new Object[]{id}, resultSet -> {
+            Customer customer = new Customer();
+            customer.setId(id);
+            Set<Address> addresses = new HashSet<>();
+            while (resultSet.next()) {
+                customer.setName(resultSet.getString("customer_name"));
+                Address address = new Address();
+                address.setId(resultSet.getLong("address_id"));
+                address.setCountry(resultSet.getString("country"));
+                address.setCity(resultSet.getString("city"));
+                address.setStreet(resultSet.getString("street"));
+                address.setBuilding(resultSet.getString("building"));
+                addresses.add(address);
             }
+            customer.setAddresses(addresses);
+            return customer;
         });
     }
 
     @Test
-    public void deleteCustomerTest(){
+    public void deleteCustomerTest() {
         Address address = serviceTestUtils.createAddress(1L, "Country", "City", "Street", "Building");
         Customer customer = serviceTestUtils.createCustomer(1L, "Petya", address);
 
@@ -106,11 +101,11 @@ public class CustomerServiceImplInMemDbTest extends AbstractTransactionalJUnit4S
 
     private int getCountOfCustomersById(Long id) {
         final String sql = "SELECT COUNT(*) FROM customers WHERE customer_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id},Integer.class);
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class);
     }
 
     @Test
-    public void findAllTest(){
+    public void findAllTest() {
         Address address1 = serviceTestUtils.createAddress(1L, "Country", "City", "Street", "Building");
         Address address2 = serviceTestUtils.createAddress(2L, "newCountry", "newCity", "newStreet", "newBuilding");
         Customer customer1 = serviceTestUtils.createCustomer(1L, "Petya", address1);

@@ -26,12 +26,12 @@ public class PizzaServiceImplInMemDbTest extends AbstractTransactionalJUnit4Spri
     private ServiceTestUtils serviceTestUtils;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         serviceTestUtils = new ServiceTestUtils(jdbcTemplate);
     }
 
     @Test
-    public void getPizzaByIdTest(){
+    public void getPizzaByIdTest() {
         Pizza pizza = serviceTestUtils.createPizza(1L, "Margarita", 150., Pizza.PizzaType.MEAT);
 
         Pizza newPizza = pizzaService.getPizzaById(pizza.getId());
@@ -39,7 +39,7 @@ public class PizzaServiceImplInMemDbTest extends AbstractTransactionalJUnit4Spri
     }
 
     @Test
-    public void savePizzaTest(){
+    public void savePizzaTest() {
         Pizza pizza = new Pizza();
         pizza.setName("Margarita");
         pizza.setPrice(150.);
@@ -49,7 +49,7 @@ public class PizzaServiceImplInMemDbTest extends AbstractTransactionalJUnit4Spri
     }
 
     @Test
-    public void deletePizzaTest(){
+    public void deletePizzaTest() {
         Pizza pizza = serviceTestUtils.createPizza(1L, "Margarita", 150., Pizza.PizzaType.MEAT);
         pizzaService.deletePizza(pizza);
 
@@ -59,11 +59,11 @@ public class PizzaServiceImplInMemDbTest extends AbstractTransactionalJUnit4Spri
 
     private int getCountOfPizzasById(Long id) {
         final String sql = "SELECT COUNT(*) FROM pizzas WHERE pizza_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id},Integer.class);
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class);
     }
 
     @Test
-    public void findAllTest(){
+    public void findAllTest() {
         Pizza pizza1 = serviceTestUtils.createPizza(1L, "Margarita1", 150., Pizza.PizzaType.MEAT);
         Pizza pizza2 = serviceTestUtils.createPizza(2L, "Margarita2", 190., Pizza.PizzaType.SEA);
         Pizza pizza3 = serviceTestUtils.createPizza(3L, "Margarita3", 120., Pizza.PizzaType.VEGETARIAN);

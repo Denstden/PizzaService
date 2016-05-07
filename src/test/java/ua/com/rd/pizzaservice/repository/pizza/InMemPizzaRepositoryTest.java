@@ -12,21 +12,21 @@ public class InMemPizzaRepositoryTest {
     private InMemPizzaRepository pizzaRepository;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         pizzaRepository = new InMemPizzaRepository();
     }
 
     @Test
-    public void getPizzaByIdShouldExists(){
-        Pizza pizza = new Pizza(5l,"Pizza1",150., Pizza.PizzaType.MEAT);
+    public void getPizzaByIdShouldExists() {
+        Pizza pizza = new Pizza(5L, "Pizza1", 150., Pizza.PizzaType.MEAT);
         pizzaRepository.addPizza(pizza);
-        assertEquals(pizza, pizzaRepository.getPizzaByID(5l));
+        assertEquals(pizza, pizzaRepository.getPizzaByID(5L));
     }
 
     @Test
-    public void getPizzaByIdShouldNotExists(){
-        Pizza pizza = new Pizza(5l,"Pizza1",150., Pizza.PizzaType.MEAT);
+    public void getPizzaByIdShouldNotExists() {
+        Pizza pizza = new Pizza(5L, "Pizza1", 150., Pizza.PizzaType.MEAT);
         pizzaRepository.addPizza(pizza);
-        assertNull(pizzaRepository.getPizzaByID(7l));
+        assertNull(pizzaRepository.getPizzaByID(7L));
     }
 }
